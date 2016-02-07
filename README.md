@@ -13,7 +13,14 @@ Example usage #1:
 ```js
 // in your script
 var ArguMints = require('argumints').ArguMints;
-var options = { verbose:true }
+ArguMints.verbose = true;
+var options = {
+            treatBoolStringsAsBoolean:true,
+            treatNullStringsAsNull:true,
+            treatRegExStringsAsRegEx:true,
+            enableArgFileLoading:true,
+            ignoreJson:false
+        };
 //Command Line Arguments passed into the script using ArguMints are parsed by ArguMints into proper Javascript Datatypes.
 var myArgs = new ArguMints(options);
 
@@ -33,6 +40,80 @@ node myscript.js -v x=2 y=[1,2,3]
 boolean true
 number 2
 object [1,2,3]
+```
+# More fun usages...:
+
+Using the following default options...
+
+```js
+var options = {
+    treatBoolStringsAsBoolean:true,
+    treatNullStringsAsNull:true,
+    treatRegExStringsAsRegEx:true,
+    enableArgFileLoading:true,
+    ignoreJson:false
+};
+```
+
+
+```js
+var ArguMints = require('argumints').ArguMints;
+ArguMints.verbose = true;
+var myArgs = new ArguMints(options);
+// append some more 'command line' args.
+myArgs.retort([["@file1.txt","@file2.json"]]);
+
+//results
+//file1.txt is loaded, and its contents are placed in the first array slot.
+//file2.json is loaded, and its contents are placed in the second array slot, once they've been expanded into a JSON object.
+// the resulting array is placed in the first slot of
+// Argumints.commandTable.argList 
+// (since it has no key=value) format, and is not a flag.
+```
+
+```js
+var ArguMints = require('argumints').ArguMints;
+ArguMints.verbose = true;
+var myArgs = new ArguMints(options);
+// append some more 'command line' args.
+myArgs.retort(["x=@file1.txt","y=@file2.json"]);
+
+//results
+//file1.txt is loaded, and its contents are written to the command table with key 'x'.
+//file2.json is loaded, expanded into a JSON Object, and stored in the command table under key 'y'
+```
+
+
+```js
+var ArguMints = require('argumints').ArguMints;
+ArguMints.verbose = true;
+var myArgs = new ArguMints(options);
+
+// if file1 contents={"file":"@file2"}
+// and file2 contents={"file":"@file1"}
+myArgs.retort(["x=@file1","y=@file2"]);
+
+//results
+//file1 is loaded, and its contents are written to the command table with key 'x'.
+//file2 is loaded, expanded into a JSON Object. The object is then
+//passed to 'expandObject' which will attempt to load file1 again causing
+// an ArguMintsException to be thrown.
+```
+
+
+```js
+var ArguMints = require('argumints').ArguMints;
+ArguMints.verbose = true;
+var myArgs = new ArguMints(options);
+
+// if file1 contents={"file":"@file2"}
+// and file2 contents={"file":"@file1"}
+myArgs.retort(["x=@file1.txt"]).retort(["y=@file2.json"]);
+
+//results
+//file1.txt is loaded, and its contents are written to the command table with key 'x'.
+// retort is called again, causing an append operation.
+//file2.json is loaded, expanded into a JSON Object, and stored in the command table under key 'y'
 ```
 
 ### Requirements

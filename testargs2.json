@@ -1,0 +1,10 @@
+{
+"testargs2_1":1,
+"testargs2_2":2,
+"testargs2_3":["a","b","c"],
+"testargs2_4":"@testargs3.json",
+"filecontentsInArray":["@test.txt","@test2.txt"],
+"fileTable":{
+    "expandThis":"@testargs.json"
+ }
+}
