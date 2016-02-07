@@ -10,6 +10,7 @@ ArguMints.prototype.isRegEx             = AMIsRegExString;
 ArguMints.prototype.argDump             = AMArgDump;
 ArguMints.prototype.innerDump           = AMDump;
 
+ArguMints.verbose                       = false;
 /**
  * Constructor
  * 
@@ -24,9 +25,20 @@ function ArguMints(options){
             verbose:false,
             treatBoolStringsAsBoolean:true,
             treatNullStringsAsNull:true,
-            treatRegExStringsAsRegEx:true
+            treatRegExStringsAsRegEx:true,
+            ignoreJson:false
+        }
+        ArguMints.verbose   = this.options.verbose;
+    }
+    else{
+        if(typeof this.options.verbose !== 'undefined'){
+            ArguMints.verbose = this.options.verbose;
+        }
+        else{
+            ArguMints.verbose = false;
         }
     }
+    
     this.commandTable   = null;
     this.scriptArgs     = null;
     this.userArgs       = null;
@@ -42,7 +54,7 @@ function AMDump(o, maxDepth){
     ++this.argDumpDepth;
     if (this.argDumpDepth >= maxDepth) {
         
-        if(this.options.verbose){
+        if(ArguMints.verbose){
             console.log("max depth (" + this.argDumpDepth + ") reached!");
             console.log(o);
         }
@@ -51,7 +63,7 @@ function AMDump(o, maxDepth){
     }
     var objtype = typeof o;
     
-    if(this.options.verbose) console.log('[' + o + ']');
+    if(ArguMints.verbose) console.log('[' + o + ']');
     
     if (objtype === 'object') {
         var cnt = 0;
@@ -60,7 +72,7 @@ function AMDump(o, maxDepth){
             var value = o[prop];
             var type = (typeof value);
             
-            if(this.options.verbose) console.log(this.argDumpDepth + ")\t" + prop + "=" + value + "(" + type + ")");
+            if(ArguMints.verbose) console.log(this.argDumpDepth + ")\t" + prop + "=" + value + "(" + type + ")");
 
             if (type === 'object') {
                 this.innerDump(value, maxDepth);
@@ -77,15 +89,15 @@ function AMDump(o, maxDepth){
  * Dump the Command Table
  */
 function AMArgDump() {
-    if(this.options.verbose) console.log("ArguMints.argDump(" + this.commandTable + ")");
+    if(ArguMints.verbose) console.log("ArguMints.argDump(" + this.commandTable + ")");
  
     // dump the contents of the command table, up to 100 levels into the tree.
     // this is an obscene limit, but insures no stack overflow or inifite circular print.
     this.innerDump(this.commandTable, 100);
     
-    if(this.options.verbose) console.log("\twhere is node js: " + this.wheresMyNode());
-    if(this.options.verbose) console.log("\tuser arguments: " + this.userArgs.length);
-    if(this.options.verbose) console.log("\tscript arguments: " + this.getScriptArgs());
+    if(ArguMints.verbose) console.log("\twhere is node js: " + this.wheresMyNode());
+    if(ArguMints.verbose) console.log("\tuser arguments: " + this.userArgs.length);
+    if(ArguMints.verbose) console.log("\tscript arguments: " + this.getScriptArgs());
 };
 
 function AMWhereIsNode(){
@@ -101,12 +113,16 @@ function AMGetUserArgs(){
 }
 
 // build the command table from the users Arguments
-function AMRetort(){
+function AMRetort(moreUserArgs){
     // first two args
     this.scriptArgs = process.argv.slice(0, 2);
 
     // any additional args
     this.userArgs   = process.argv.slice(2);
+
+    if(moreUserArgs != null){
+        this.userArgs = this.userArgs.concat(moreUserArgs);
+    }
 
     // path to node installation
     this.nodeLoc    = this.scriptArgs[0];
@@ -122,7 +138,7 @@ function AMRetort(){
     var uLen = this.userArgs == null ? 0 : this.userArgs.length;
     if (uLen > 0) {
 
-        if(this.options.verbose === true){
+        if(ArguMints.verbose === true){
             console.log("\t" + uLen + " arguments were passed in by the user " + this.userArgs);
         }
         // userArgs are split on '=' to avoid forcing order
@@ -133,7 +149,7 @@ function AMRetort(){
             
             // first index of assignment operator in argument
             var aIdx = argAt.indexOf('=');
-            if(this.options.verbose){
+            if(ArguMints.verbose){
                 console.log("\tprocessing argument: " + argAt);
             }
             // if this is NOT a 'key=value' pair
@@ -142,7 +158,7 @@ function AMRetort(){
                 
                 // supports both '--flagName' and '-f' formats
                 if(argAt.charAt(0) === '-'){
-                    if(this.options.verbose){
+                    if(ArguMints.verbose){
                         console.log("\tflag type argument format at: " + i + ", argument: " + argAt);
                     }
                     // set as 'true'
@@ -156,16 +172,21 @@ function AMRetort(){
                 else{
                     
                     if(this.isJsonString(argAt)){
-                        if(this.options.verbose){
+                        if(ArguMints.verbose){
                             console.log("\tjson formatted input, parsing...");
                         }
-                       
-                        // copy the json key/values into the command table.
-                        // this allows structured input.
-                        this.copyCommandsFrom(JSON.parse(argAt));
+                        
+                        if(options.ignoreJson !== true){
+                            // copy the json key/values into the command table.
+                            // this allows structured input.
+                            this.copyCommandsFrom(JSON.parse(argAt));
+                        }
+                        else{
+                            if(this.options.verbose) console.log("JSON Strings not parsed for this instance of ArguMints");
+                        }
                     }
                     else{
-                        if(this.options.verbose){
+                        if(ArguMints.verbose){
                             console.log("\tflag malformed: " + argAt + ", ignoring!");
                         }
                     }
@@ -261,6 +282,7 @@ function AMCopyToCommandTable(copyFrom){
         this.commandTable[key] = copyFrom[key];
     }
 
+    return this;
 }
 /**
  * Copy the 'commandTable' object to otherObject
@@ -273,12 +295,13 @@ function AMCopyTo(otherObject, overwrite){
             }
         }
     }
+    
+    return this;
 }
 
 // Export to the world.
 module.exports.ArguMints = ArguMints;
 /*
-
 // export
 var am = new ArguMints({
     verbose:true,
