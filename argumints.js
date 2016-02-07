@@ -268,10 +268,11 @@ function AMCopyTo(otherObject, overwrite){
     }
 }
 
+// Export to the world.
+module.exports.ArguMints = ArguMints;
 /*
 
 // export
-module.exports.ArguMints = ArguMints;
 var am = new ArguMints({
     verbose:true,
     treatBoolStringsAsBoolean:true,
