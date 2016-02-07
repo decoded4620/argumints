@@ -1,0 +1,98 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@2.14.12
+3 info using node@v4.2.6
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'Z:\\websites\\bowarcher.com\\www\\node_tools\\argumints',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package.tgz not in flight; packing
+9 verbose tar pack [ 'C:\\Users\\TheTechnoViking\\AppData\\Roaming\\npm-cache\\argumints\\1.0.0\\package.tgz',
+9 verbose tar pack   'Z:\\websites\\bowarcher.com\\www\\node_tools\\argumints' ]
+10 verbose tarball C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package.tgz
+11 verbose folder Z:\websites\bowarcher.com\www\node_tools\argumints
+12 info prepublish argumints@1.0.0
+13 verbose addLocalTarball adding from inside cache C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package.tgz
+14 silly cache afterAdd argumints@1.0.0
+15 verbose afterAdd C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package\package.json not in flight; writing
+16 verbose afterAdd C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package\package.json written
+17 silly publish { name: 'argumints',
+17 silly publish   version: '1.0.0',
+17 silly publish   description: 'A powerful Command Line Arguments Utility that converts input arguments on the command line into javascript data types. Supports JSON, flags, and key=value formats for input arguments. works both on Command Line as well as in JavaScript API.',
+17 silly publish   main: 'arguments.js',
+17 silly publish   scripts: { test: 'node arguments.js -v' },
+17 silly publish   repository:
+17 silly publish    { type: 'git',
+17 silly publish      url: 'git+https://github.com/decoded4620/argumints.git' },
+17 silly publish   keywords: [ 'nodejs', 'argumints', 'cmd', 'command', 'cmdline' ],
+17 silly publish   author:
+17 silly publish    { name: 'Decoded4620',
+17 silly publish      email: 'barcher4620@gmail.com',
+17 silly publish      url: 'http://github.com/decoded4620' },
+17 silly publish   license: 'https://github.com/decoded4620/argumints/LICENSE.TXT',
+17 silly publish   bugs: { url: 'https://github.com/decoded4620/argumints/issues' },
+17 silly publish   homepage: 'https://github.com/decoded4620/argumints#readme',
+17 silly publish   readme: '\r\n# ArguMints\r\n\r\nArguMints <- ARGUMINTS <- Command Line and Script Argument Utility\r\n\r\nArgumints is a Powerful Command Line Arguments Preprocessor.\r\n\r\n### Usage\r\n\r\nExample usage #1:\r\n\r\n\r\n```js\r\n// in your script\r\nvar ArguMints = require(\'argumints\').ArguMints;\r\nvar options = { verbose:true }\r\n//Command Line Arguments passed into the script using ArguMints are parsed by ArguMints into proper Javascript Datatypes.\r\nvar myArgs = new ArguMints(options);\r\n\r\n// retort is synonymous for responding to user Arguments, i.e. building the command table in ArguMints.\r\nmyArgs.retort();\r\n\r\nvar commandTable = myArgs.commandTable;\r\nconsole.log(typeof commandTable.v + " " + commandTable.v );\r\nconsole.log(typeof commandTable.x + " " + commandTable.x);\r\nconsole.log(typeof commandTable.y + " " + commandTable.y);\r\n```\r\nNow run the script with the following\r\n\r\n```js\r\nnode myscript.js -v x=2 y=[1,2,3]\r\n//output\r\nboolean true\r\nnumber 2\r\nobject [1,2,3]\r\n```\r\n\r\n### Requirements\r\n\r\nNode or IE8+\r\n\r\n### Installation and usage\r\n\r\nNode, browserify:\r\n```\r\nnpm install argumints\r\n```\r\n\r\n```js\r\nvar ArguMints = require(\'argumints\').ArguMints;\r\nvar options = {\r\n    verbose:true,\r\n    treatBoolStringsAsBoolean:true,\r\n    treatNullStringsAsNull:true,\r\n    treatRegExStringsAsRegEx:true\r\n}\r\nvar ag = new ArguMints(options).retort();\r\n\r\nvar table = ag.commandTable;\r\n```\r\n\r\n### Methods\r\n\r\n#### .retort()\r\n\r\nImmediately analyzes the input arguments to the current running node process. This assumes the first two arguments are NodeJS Location, and Script URI.\r\n\r\n```js\r\nvar ArguMints = require(\'argumints\').ArguMints;\r\nvar options = {\r\n    verbose:true,\r\n    treatBoolStringsAsBoolean:true,\r\n    treatNullStringsAsNull:true,\r\n    treatRegExStringsAsRegEx:true\r\n}\r\nvar ag = new ArguMints(options).retort();\r\n\r\nvar table = ag.commandTable;\r\n```\r\n\r\n\r\n### License\r\n\r\n```\r\nThe MIT License (MIT)\r\n\r\nCopyright (c) 2016 Decoded4620\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the "Software"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n```',
+17 silly publish   readmeFilename: 'README.md',
+17 silly publish   gitHead: '8cafb29a70e7f434b0b7ac9a0b53a62e0d01c51f',
+17 silly publish   _id: 'argumints@1.0.0',
+17 silly publish   _shasum: 'b349d1343009df48f64eac666bf6aa288ba95f49',
+17 silly publish   _from: '.' }
+18 verbose getPublishConfig undefined
+19 silly mapToRegistry name argumints
+20 silly mapToRegistry using default registry
+21 silly mapToRegistry registry https://registry.npmjs.org/
+22 silly mapToRegistry uri https://registry.npmjs.org/argumints
+23 verbose publish registryBase https://registry.npmjs.org/
+24 silly publish uploading C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\argumints\1.0.0\package.tgz
+25 verbose request uri https://registry.npmjs.org/argumints
+26 verbose request sending authorization for write operation
+27 info attempt registry request try #1 at 7:50:24 PM
+28 verbose request using bearer token for auth
+29 verbose request id 29fc6f622f33678b
+30 http request PUT https://registry.npmjs.org/argumints
+31 http 403 https://registry.npmjs.org/argumints
+32 verbose headers { 'content-type': 'application/json',
+32 verbose headers   'cache-control': 'max-age=300',
+32 verbose headers   'content-length': '95',
+32 verbose headers   'accept-ranges': 'bytes',
+32 verbose headers   date: 'Sun, 07 Feb 2016 03:50:26 GMT',
+32 verbose headers   via: '1.1 varnish',
+32 verbose headers   connection: 'keep-alive',
+32 verbose headers   'x-served-by': 'cache-sjc3130-SJC',
+32 verbose headers   'x-cache': 'MISS',
+32 verbose headers   'x-cache-hits': '0',
+32 verbose headers   'x-timer': 'S1454817026.162173,VS0,VE192' }
+33 verbose request invalidating C:\Users\TheTechnoViking\AppData\Roaming\npm-cache\registry.npmjs.org\argumints on PUT
+34 error publish Failed PUT 403
+35 verbose stack Error: "You cannot publish over the previously published version 1.0.0." : argumints
+35 verbose stack     at makeError (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+35 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+35 verbose stack     at Request._callback (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+35 verbose stack     at Request.self.callback (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
+35 verbose stack     at emitTwo (events.js:87:13)
+35 verbose stack     at Request.emit (events.js:172:7)
+35 verbose stack     at Request.<anonymous> (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:1082:10)
+35 verbose stack     at emitOne (events.js:82:20)
+35 verbose stack     at Request.emit (events.js:169:7)
+35 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\request.js:1009:12)
+36 verbose statusCode 403
+37 verbose pkgid argumints
+38 verbose cwd Z:\websites\bowarcher.com\www\node_tools\argumints
+39 error Windows_NT 10.0.10586
+40 error argv "C:\\Program Files (x86)\\nodejs\\node.exe" "C:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+41 error node v4.2.6
+42 error npm  v2.14.12
+43 error code E403
+44 error "You cannot publish over the previously published version 1.0.0." : argumints
+45 error If you need help, you may report this error at:
+45 error     <https://github.com/npm/npm/issues>
+46 verbose exit [ 1, true ]
