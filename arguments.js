@@ -52,7 +52,7 @@ function AMDump(o, maxDepth){
     }
     var objtype = typeof o;
     
-    console.log('[' + o + ']');
+    if(this.options.verbose) console.log('[' + o + ']');
     
     if (objtype === 'object') {
         var cnt = 0;
@@ -61,7 +61,7 @@ function AMDump(o, maxDepth){
             var value = o[prop];
             var type = (typeof value);
             
-            console.log(this.argDumpDepth + ")\t" + prop + "=" + value + "(" + type + ")");
+            if(this.options.verbose) console.log(this.argDumpDepth + ")\t" + prop + "=" + value + "(" + type + ")");
 
             if (type === 'object') {
                 this.innerDump(value, maxDepth);
@@ -78,14 +78,15 @@ function AMDump(o, maxDepth){
  * Dump the Command Table
  */
 function AMArgDump() {
-    console.log("ArguMints.argDump(" + this.commandTable + ")");
+    if(this.options.verbose) console.log("ArguMints.argDump(" + this.commandTable + ")");
  
     // dump the contents of the command table, up to 100 levels into the tree.
     // this is an obscene limit, but insures no stack overflow or inifite circular print.
     this.innerDump(this.commandTable, 100);
-    console.log("\twhere is node js: " + this.wheresMyNode());
-    console.log("\tuser arguments: " + this.userArgs.length);
-    console.log("\tscript arguments: " + this.getScriptArgs());
+    
+    if(this.options.verbose) console.log("\twhere is node js: " + this.wheresMyNode());
+    if(this.options.verbose) console.log("\tuser arguments: " + this.userArgs.length);
+    if(this.options.verbose) console.log("\tscript arguments: " + this.getScriptArgs());
 };
 
 function AMWhereIsNode(){
@@ -214,8 +215,6 @@ function AMRetort(){
                         this.commandTable[key] = value;
                     }
                     else if(typeof value === 'undefined'){
-                        console.log("This shouldn't happen!");
-                        
                         this.commandTable[key] = undefined;
                     }
                 }
@@ -269,6 +268,8 @@ function AMCopyTo(otherObject, overwrite){
     }
 }
 
+/*
+
 // export
 module.exports.ArguMints = ArguMints;
 var am = new ArguMints({
@@ -279,3 +280,4 @@ var am = new ArguMints({
 }).retort();
 
 am.argDump();
+*/
