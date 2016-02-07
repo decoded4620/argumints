@@ -287,7 +287,6 @@ function AMRetort(moreUserArgs){
             // if this is NOT a 'key=value' pair
             // its a 'flag' i.e. verbose, etc.
             if (aIdx == -1) {
-                console.log("NO KEY VAL PIAR");
                 // supports both '--flagName' and '-f' formats
                 if(argAt.charAt(0) === '-'){
                     if(ArguMints.verbose){
@@ -336,7 +335,6 @@ function AMRetort(moreUserArgs){
                 var key     = pts[0];
                 var value   = pts[1];
                 
-                console.log('value: ' + value);
                 if(false !== this.options.enableArgFileLoading && value.charAt(0) === '@'){
                    
                     value = this.expandFileArgument(value, nonce);
