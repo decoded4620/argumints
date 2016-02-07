@@ -14,32 +14,28 @@ Example usage #1:
 // in your script
 var ArguMints = require('argumints').ArguMints;
 ArguMints.verbose = true;
-var options = {
-            treatBoolStringsAsBoolean:true,
-            treatNullStringsAsNull:true,
-            treatRegExStringsAsRegEx:true,
-            enableArgFileLoading:true,
-            ignoreJson:false
-        };
-//Command Line Arguments passed into the script using ArguMints are parsed by ArguMints into proper Javascript Datatypes.
-var myArgs = new ArguMints(options);
 
-// retort is synonymous for responding to user Arguments, i.e. building the command table in ArguMints.
+//Command Line Arguments passed into the script using ArguMints are parsed by ArguMints into proper Javascript Datatypes.
+// retort means building the command table in ArguMints.
+var myArgs = new ArguMints().retort();
+
 myArgs.retort();
 
-var commandTable = myArgs.commandTable;
-console.log(typeof commandTable.v + " " + commandTable.v );
-console.log(typeof commandTable.x + " " + commandTable.x);
-console.log(typeof commandTable.y + " " + commandTable.y);
+var ct = myArgs.commandTable;
+console.log(typeof ct.v + " " + ct.v);
+console.log(typeof ct.x + " " + ct.x);
+console.log(typeof ct.y + " " + ct.y);
+console.log(ct.argList);
 ```
 Now run the script with the following
 
 ```js
-node myscript.js -v x=2 y=[1,2,3]
+node myscript.js -v x=2 y=[1,2,3] argP1 argP2
 //output
 boolean true
 number 2
 object [1,2,3]
+[ argP1, argP2 ]
 ```
 # More fun usages...:
 
@@ -55,6 +51,7 @@ var options = {
 };
 ```
 
+## Examples with File Expansion
 
 ```js
 var ArguMints = require('argumints').ArguMints;
@@ -115,6 +112,8 @@ myArgs.retort(["x=@file1.txt"]).retort(["y=@file2.json"]);
 // retort is called again, causing an append operation.
 //file2.json is loaded, expanded into a JSON Object, and stored in the command table under key 'y'
 ```
+### Notes on File Expansion
+Files are expanded using the '@' character to denote resource location. This is either an absolute or relative local resource. File contents can be in JSON format, which means their content will be expanded into a  JavaScript object. Any properties of said object that are of String type, and follow the file expansion nomenclature will also be expanded. Circular Expansion is not allowed.
 
 ### Requirements
 
