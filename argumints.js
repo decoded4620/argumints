@@ -1,5 +1,4 @@
 
-
 ArguMints.prototype.retort              = AMRetort;
 ArguMints.prototype.getUserArgs         = AMGetUserArgs;
 ArguMints.prototype.getScriptArgs       = AMGetScriptArgs;
@@ -196,22 +195,30 @@ function AMRetort(){
                     }
                     else if(typeof value === 'string'){
                         var xVal = value.toUpperCase();
-                        if(this.options.treatBoolStringsAsBoolean){
+                        var updatedValue = false;
+                        if(!updatedValue && this.options.treatBoolStringsAsBoolean){
                             if(xVal === 'TRUE'){
                                 value = true;
+                                updatedValue = true;
                             }
                             else if(xVal === 'FALSE'){
                                 value = false;
+                                updatedValue = true;
                             }
                         }
-                        if(this.options.treatNullStringsAsNull){
+                        if(!updatedValue && this.options.treatNullStringsAsNull){
                             if(xVal === 'NULL'){
                                 value = null;
+                                updatedValue = true;
                             }
                         }
-                        if(this.options.treatRegExStringsAsRegEx){
-                            value = new RegExp(value);
+                        if(!updatedValue && this.options.treatRegExStringsAsRegEx){
+                            if(this.isRegEx(value)){
+                                value = new RegExp(value);
+                                updatedValue = true;
+                            }
                         }
+                        
                         this.commandTable[key] = value;
                     }
                     else if(typeof value === 'undefined'){
