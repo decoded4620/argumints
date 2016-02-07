@@ -39,7 +39,7 @@ function ArguMintsException(message){
  * @param options
  */
 function ArguMints(options){
-    
+    console.log("ArgumintsConstruct(" + ArguMints.verbose + ")");
     this.options        = options;
     
     if(this.options == null){
@@ -231,7 +231,6 @@ function AMRetort(moreUserArgs){
 
         if(moreUserArgs != null){
             this.userArgs = this.userArgs.concat(moreUserArgs);
-            moreUserArgs = this.userArgs;
         }
     }
     else{
@@ -245,17 +244,17 @@ function AMRetort(moreUserArgs){
     
 
 
-    var uLen = moreUserArgs == null ? 0 : moreUserArgs.length;
+    var uLen = this.userArgs == null ? 0 : this.userArgs.length;
+    if(ArguMints.verbose === true){
+        console.log("\t" + uLen + " additional arguments were passed in by the user " + this.userArgs);
+    }
     if (uLen > 0) {
 
-        if(ArguMints.verbose === true){
-            console.log("\t" + uLen + " additional arguments were passed in by the user " + this.userArgs);
-        }
         // userArgs are split on '=' to avoid forcing order
         for (var i = 0; i < uLen; ++i) {
 
             // current arg
-            var argAt = moreUserArgs[i];
+            var argAt = this.userArgs[i];
 
             if(argAt === '' || argAt === null){
                 this.commandTable.argList.push(argAt);
@@ -288,7 +287,7 @@ function AMRetort(moreUserArgs){
             // if this is NOT a 'key=value' pair
             // its a 'flag' i.e. verbose, etc.
             if (aIdx == -1) {
-                console.log("Arg At: " + (typeof argAt));
+                console.log("NO KEY VAL PIAR");
                 // supports both '--flagName' and '-f' formats
                 if(argAt.charAt(0) === '-'){
                     if(ArguMints.verbose){
