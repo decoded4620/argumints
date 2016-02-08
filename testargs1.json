@@ -1,0 +1,8 @@
+{
+    "aNumber":1,
+    "aBool":true,
+    "aString":"Hello World!",
+    "anArray":[1,2,"buckle","my","shoe"],
+    "anObject":{"prop":"aProperty"},
+    "nullValue":null
+}

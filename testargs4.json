@@ -1,0 +1,11 @@
+{
+    "path1":"test/path/1", 
+    "path2":"test/path/2", 
+    "usePath1":"path2", 
+    "array1":[1,2,3,4], 
+    "object1":{ 
+        "object1_prop0":"stringValue", 
+        "object1_prop1":2, 
+        "nullProp":null 
+    }
+}
