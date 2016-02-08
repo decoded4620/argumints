@@ -1,7 +1,7 @@
 /**
  * Test
  */
-var ArguMints = require('./argumints.js').ArguMints;
+var ArguMints = require('argumints').ArguMints;
 
 ArguMints.test = function(){
     var defaultOptions = {
