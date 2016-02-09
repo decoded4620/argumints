@@ -1,6 +1,6 @@
 {
   "name": "argumints",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A powerful Command Line Arguments Utility that converts input arguments on the command line into javascript data types. Supports JSON, flags, and key=value formats for input arguments. works both on Command Line as well as in JavaScript API.",
   "main": "argumints.js",
   "scripts": {
@@ -58,7 +58,7 @@
     "reg"
   ],
   "author": "Decoded4620 <barcher4620@gmail.com> (http://github.com/decoded4620)",
-  "license": "LICENSE.TXT",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/decoded4620/argumints/issues"
   },
