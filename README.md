@@ -3,6 +3,10 @@
 ![argumints!](argumints_logo.jpg)
 
 
+[GitHub](http://github.com/decoded4620/argumints)
+
+![travis!](https://travis-ci.org/decoded4620/argumints.svg?branch=master)
+
 Argumints is a Powerful Command Line Arguments Preprocessor and Data Mining Tool
 ## Benefits
 Easily create meaningful input to your scripts. Not only limited to CLI option/argv parsing, ArguMints is also a powerful 
