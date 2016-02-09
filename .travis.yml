@@ -1,17 +1,15 @@
 language: JAVASCRIPT
 
 before_install:
-# todo
-    - sudo echo "before_install called"
+    - echo "before_install called"
 
 install:
-    - sudo echo "Installing"
-# todo
+    - echo "Installing"
 before_script:
+    - echo "before script"
 
-#todo
-
-script: node argumints-test.js --minty-dump --minty-verbose --minty-op-sqr --minty-append-dup-keys a=4 a=5 true null undefined testString 1 2 3 -fx --o1 --o2
+script: 
+    - node argumints-test.js --minty-dump --minty-verbose --minty-op-sqr --minty-append-dup-keys a=4 a=5 true null undefined testString 1 2 3 -fx --o1 --o2
 #todo
 after_success:
     - echo "success"
