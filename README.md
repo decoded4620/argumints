@@ -533,7 +533,7 @@ This only works for Array (pushes or concatenates), Number (adds unless otherwis
     
     // -- OR --
     
-    myArgs.retort(["--minty-append-dup-keys", "key1=221","key1=B","key1=" Baker Street"]);
+    myArgs.retort(["--minty-append-dup-keys", "key1=221","key1=B","key1= Baker Street"]);
     myArgs.keyValue('key1')); // output: 221B Baker Street
     // -- OR --
     
