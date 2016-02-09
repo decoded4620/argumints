@@ -525,7 +525,7 @@ This only works for Array (pushes or concatenates), Number (adds unless otherwis
     
     // -- OR --
     
-    myArgs.retort(["--minty-append-dup-keys", "key1=2","key1=2","key1="6"]);
+    myArgs.retort(["--minty-append-dup-keys", "key1=2","key1=2","key1=6"]);
     
     console.log(myArgs.keyValue('key1'));
     //output: 10
@@ -537,7 +537,7 @@ This only works for Array (pushes or concatenates), Number (adds unless otherwis
     myArgs.keyValue('key1')); // output: 221B Baker Street
     // -- OR --
     
-    myArgs.retort(["--minty-append-dup-keys", "key1=0x000000","key1=0xFFF000","key2="0x000FFF"]);
+    myArgs.retort(["--minty-append-dup-keys", "key1=0x000000","key1=0xFFF000","key2=0x000FFF"]);
     console.log(myArgs.keyValue('key1') == myArgs.keyValue('key2')); // output: true
 
 ```
