@@ -334,7 +334,7 @@
                             }
                             else if( pName === 'Number'){
                                 if(newPName === 'Number' ){
-                                    this.appendNumberForKey(_keystore, _opt, key, value, nonce);
+                                    this.appendNumberForKey(_keyStore, _opt, key, value, nonce);
                                 }
                                 else if( newPName === 'String'){
                                      _keyStore[key.trim()] += value;
@@ -923,8 +923,8 @@
                         this.setKeyStoreValue(pts[0], this.expandString(pts[1].trim(), nonce), nonce);
                         
                         
-                        if (ArguMints.verbose) console.log("ArguMints.retort() -set final retort for" + key + " to ("
-                                + this.commandTable._keyStore[key] + ")");
+                        if (ArguMints.verbose) console.log("ArguMints.retort() -set final retort for" + pts[0] + " to ("
+                                + this.commandTable._keyStore[pts[0]] + ")");
                     }
                 }
                 else {
