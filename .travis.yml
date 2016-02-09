@@ -1,10 +1,34 @@
 language: JAVASCRIPT
+
+before_install:
+# todo
+    - sudo echo "before_install called"
+
+install:
+    - sudo echo "Installing"
+# todo
+before_script:
+
+#todo
+
+script: node argumints-test.js --minty-dump --minty-verbose --minty-op-sqr --minty-append-dup-keys a=4 a=5 true null undefined testString 1 2 3 -fx --o1 --o2
+#todo
+after_success:
+    - echo "success"
+
+after_failure:
+    - echo "fail"
+
+before_deploy:
+    - echo "pre-deploy"
+deploy:
+    - echo "deploy"
+
+after_deploy:
+    - echo "post deploy"
+
+after_script:
+    - echo "done"
+
 node_js:
-  - "4.1"
-  - "4.0"
-  - "0.12"
-  - "0.11"
-  - "0.10"
-  - "0.8"
-  - "0.6"
   - "stable"
