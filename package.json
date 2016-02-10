@@ -1,16 +1,21 @@
 {
   "name": "argumints",
-  "version": "1.2.3",
+  "version": "1.2.31",
   "description": "A powerful Command Line Arguments Utility that converts input arguments on the command line into javascript data types. Supports JSON, flags, and key=value formats for input arguments. works both on Command Line as well as in JavaScript API.",
   "main": "argumints.js",
   "scripts": {
-    "test": "node argumints-test.js --minty-dump --minty-verbose --minty-op-sqr --minty-append-dup-keys a=4 a=5"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/decoded4620/argumints.git"
   },
   "keywords": [
+    "line",
+    "args",
+    "argv",
+    "opt",
+    "argc",
     "cmd line parser",
     "cli line parser",
     "cli parser",
@@ -18,10 +23,7 @@
     "argumints",
     "cmd",
     "cli",
-    "args",
-    "argv",
     "process",
-    "line",
     "parsing",
     "options",
     "flags",
@@ -62,5 +64,13 @@
   "bugs": {
     "url": "https://github.com/decoded4620/argumints/issues"
   },
-  "homepage": "https://github.com/decoded4620/argumints#readme"
+  "homepage": "https://github.com/decoded4620/argumints#readme",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "not_____used___dependencies":{
+    "express": "^4.13.4",
+    "request": "^2.69.0"
+  }
 }

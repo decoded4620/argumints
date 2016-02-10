@@ -1,6 +1,7 @@
 /**
  * Test
  */
+/*
 var argumintsLib = require('./argumints.js');
 var ArguMints = argumintsLib.ArguMints;
 var defaultMints = argumintsLib.myArguMints;
@@ -41,3 +42,4 @@ console.log("user args:   " + defaultMints.getUserArgs().length);
 console.log("ops =        " + defaultMints.getStats().ops);
 console.log("bickerTime = " + defaultMints.getStats().bickerTime);
 defaultMints.reset();
+*/

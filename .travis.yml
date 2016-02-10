@@ -13,13 +13,21 @@ node_js:
 notifications:
   email:
     - barcher4620@gmail.com
+
+
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+  - ls -la
   - if [[ $TRAVIS_NODE_VERSION == "0.8" ]]; then npm install npm@2 && node_modules/.bin/npm install npm; else npm install npm; fi
   - mv node_modules npm
   - npm/.bin/npm --version
   - npm install tap
+  - npm install mocha
+  - npm install chai
+  - npm install request
   - npm/.bin/npm install
   - npm/.bin/npm update
-  - ls -la
-script: node_modules/.bin/tap --gc argumints-test.js
+
+script: 
+    # http://mochajs.org/#reporters currently using 'spec'
+    - npm test
