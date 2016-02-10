@@ -10,18 +10,13 @@ var dArgs =  [];//["--minty-dump", "--minty-verbose"];
 describe("ArguMints Test Suite - Vanilla -->", function() {
     describe("Test Empty Retort", function(){
         it("Retorts to no input arguments by the user", function() {
-            
-            ArguMints.verbose = true;
-            
             var calledRetortExpandCb = false;
             var calledRetortCompleteCb = false;
             
             myMints.retort([    ],function(args){
-                console.log("expandStart: " + args);
                 calledRetortExpandCb = true;
             },
             function(arg, exp, idx, cnt){
-                console.log("expandEach(" + arg + ", " + exp + ", " + idx + ", " + cnt + ")");
                 calledRetortCompleteCb = true;
             });
             
@@ -33,7 +28,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
     });
     
     describe("Test Args -->", function(){
-        it("Basic Retort Inputs, argv, opt, flag, keyValue-->", function() {
+        it("Basic Retort Inputs, argv, opt, flag, keyValue -->", function() {
             myMints.reset();
             
             
@@ -43,7 +38,6 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             // arguments for the test.
             myMints.retort(["a", "b", "c"].concat(dArgs));
             
-            console.log(myMints.argv());
             expect(myMints.argv(1)).to.equal("a");
             expect(myMints.argv(2)).to.equal("b");
             expect(myMints.argv(3)).to.equal("c");
