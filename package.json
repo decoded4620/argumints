@@ -1,8 +1,8 @@
 {
   "name": "argumints",
   "icon": "argumints_icon.jpg",
-  "version": "1.2.34",
-  "description": "A flexible CLI Options parser that converts input from the command line (or from pure JavaScript) into javascript data types. Includes support for flags, opts, argv, argc, and additionally, JSON, key=value, and /rege/x formats for input arguments. Includes several options (see below) to manipulate, aggregate, and calculate data based on input to your application, or inputs to ArguMints.",
+  "version": "1.2.35",
+  "description": "A flexible CLI (opt, argv, flag, argc) parser converts input into JS data types. Additionally supports JSON, key=value, and /rege/x formats, and  options to manipulate/aggregate/calculate data.",
   "main": "argumints.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec"
