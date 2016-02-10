@@ -1,8 +1,8 @@
 {
   "name": "argumints",
   "icon": "argumints_icon.jpg",
-  "version": "1.2.33",
-  "description": "A powerful Command Line Arguments Utility that converts input arguments on the command line into javascript data types. Supports JSON, flags, and key=value formats for input arguments. works both on Command Line as well as in JavaScript API.",
+  "version": "1.2.34",
+  "description": "A flexible CLI Options parser that converts input from the command line (or from pure JavaScript) into javascript data types. Includes support for flags, opts, argv, argc, and additionally, JSON, key=value, and /rege/x formats for input arguments. Includes several options (see below) to manipulate, aggregate, and calculate data based on input to your application, or inputs to ArguMints.",
   "main": "argumints.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec"
