@@ -237,7 +237,6 @@
         
         this.extensions.addMintyOp('minty-op-ln', function(keyStore, key, value){
             
-            console.log("LOG OF: "+ key + ", " + value + ", " + Math.log(value));
             keyStore[key.trim()] += Math.log(value);
             return this;
         });
@@ -681,10 +680,8 @@
     
     function AMInsertArgument(moreArgOrArgs, xArgsFromHere){
         
-        console.log("insert(" + moreArgOrArgs + ", "+ xArgsFromHere);
         if(this.stats.isRecording() && moreArgOrArgs !== undefined){
             var idx = this.currRetortIndex;
-            console.log("IDX: " + idx + ", " + this.userArgs.length);
             if(this.rules.protoName(xArgsFromHere) === 'number'){
                 idx+=xArgsFromHere;
             }
@@ -695,8 +692,6 @@
                 else{
                     this.userArgs = this.userArgs.slice(0, idx).concat(moreArgOrArgs).concat(this.userArgs.slice(idx))
                 }
-                
-                console.log("NEW ARGS: " + this.userArgs);
             }
         }
         return this;
