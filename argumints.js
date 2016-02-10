@@ -30,7 +30,7 @@
     ArguMints.prototype.pushArg  = AMPushArgument;
     ArguMints.prototype.insertArg  = AMInsertArgument;
     ArguMints.verbose = false;
-    
+    ArguMints.nodeCLI = false;
     
     
 
@@ -236,6 +236,8 @@
         });
         
         this.extensions.addMintyOp('minty-op-ln', function(keyStore, key, value){
+            
+            console.log("LOG OF: "+ key + ", " + value + ", " + Math.log(value));
             keyStore[key.trim()] += Math.log(value);
             return this;
         });
@@ -746,7 +748,7 @@
             // the secondArg will either be null, or will be a user argument.
             // validate that the second argument is either 'null', or doesn't contain the location of 
             // the argumints script.
-            if (secondArg == null || (secondArg.indexOf('@') != 0 && secondArg.indexOf('.js') == -1)) {
+            if (ArguMints.nodeCLI == true) {
                 this.scriptArgs = process.argv.slice(0, 1);
 
                 // path to node installation
@@ -1048,39 +1050,38 @@
     }
 
     function AMExpandRegExp(testForRegExp) {
-
-        var first = testForRegExp.charAt(0);
+        
         var ret = testForRegExp;
-        // only check for reg ex
-        // if the string starts with '/'
-        if (first === '/') {
-            if (ArguMints.verbose) console.log("ArguMints.expandRegEx() - checking validity (" + ret + ")");
-            var idx = testForRegExp.length - 1;
-            var options = "";
-            var last = testForRegExp.charAt(idx);
-            while (idx >= 0) {
-                var last = testForRegExp.charAt(idx--);
-                this.stats.recordOp();
-                if (last === first) {
-                    break;
+        if(this.rules.protoName(testForRegExp) === 'String'){
+            testForRegExp = testForRegExp.trim();
+            var tLen = testForRegExp.length;
+            var first = testForRegExp.charAt(0);
+            var last = testForRegExp.charAt(tLen-1);
+            
+                
+            // only check for reg ex
+            // if the string starts with '/'
+            if(first === '`' && last === '`'){
+                if (ArguMints.verbose) console.log("ArguMints.expandRegEx() - checking validity of expression (" + (ret.length-2) + ") chars");
+                var idx = tLen - 2;
+                var optFlags = "";
+                
+                while (idx > 0) {
+                    last =testForRegExp.charAt(idx--);
+                    this.stats.recordOp();
+                    if (last === '/') {
+                        break;
+                    }
+                    optFlags = last + optFlags;
                 }
-                options = last + options;
+    
+                if (idx > 1) {
+                    this.stats.recordOp();
+                    var regExStr = testForRegExp.substring(2, idx + 1);
+                    ret = RegExp(regExStr, optFlags);
+                    if (ArguMints.verbose) console.log("ArguMints.expandRegEx() - optFlags: " + optFlags + ", regExStr: " + regExStr);
+                }
             }
-
-            if (idx != 0) {
-                this.stats.recordOp();
-                //options?
-                try {
-                    var exp = testForRegExp.substring(1, idx + 1);
-                    ret = RegExp(exp, options);
-                }
-                catch (e) {
-                    if (ArguMints.verbose) console.log("WARNING -ArguMints.expandRegEx() - regExp Not Valid! -" + e
-                            + "(" + ret + ")");
-                    ret = testForRegExp;
-                }
-            }
-            if (ArguMints.verbose) console.log("ArguMints.expandRegEx() - " + this.rules.protoName(ret, true));
         }
         return ret;
     }

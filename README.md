@@ -99,15 +99,15 @@ Requiring ArguMints provides a default ArguMints instance, with the configuratio
 ```js
 
     // cmd line equivalent
-    // C:\argumints> node argumints-test.js @testargs2.json
-    myArgs.retort(["@test.txt"]);
+    // C:\argumints> node argumints-test.js @test/testargs2.json
+    myArgs.retort(["@test/test.txt"]);
     
     console.log(myArgs.argv(0)); // output the text file content
 ```
 
 Materials
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
 
 #### JSON Expansion in line
 JSON File Expansion works like regular File Expansion, with the additional benefit of grafting the resulting
@@ -133,8 +133,8 @@ input ArguMint (see what I did there??).
 ```js
 
     // cmd line equivalent
-    // C:\argumints> node argumints-test.js @testargs1.json
-    myArgs.retort(["@testargs1.json"]);
+    // C:\argumints> node argumints-test.js @test/testargs1.json
+    myArgs.retort(["@test/testargs1.json"]);
     
     console.log(myArgs.keyValue("aNumber"));             // 1
     console.log(myArgs.keyValue("aBool"));               // true
@@ -146,14 +146,14 @@ input ArguMint (see what I did there??).
 
 Materials
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs1.json)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs1.json)
 
 #### Recursive JSON File Expansion
 ```js
 
     // cmd line equivalent
-    // C:\argumints> node argumints-test.js @testargs2.json
-    myArgs.retort(["@testargs2.json"]);
+    // C:\argumints> node argumints-test.js @test/testargs2.json
+    myArgs.retort(["@test/testargs2.json"]);
     
     console.log(myArgs.keyValue("fromFile1"));
     console.log(myArgs.keyValue("fromFile2"));
@@ -161,16 +161,16 @@ Materials
 ```
 Materials
 
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs2.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test2.txt)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs2.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test2.txt)
 
 #### Recursive JSON File Expansion and Mining (Advanced)
 ```js
     
     // cmd line equivalent
-    // C:\argumints> node argumints-test.js @testargs3.json
-    myArgs.retort(["@testargs3.json"]);
+    // C:\argumints> node argumints-test.js @test/testargs3.json
+    myArgs.retort(["@test/testargs3.json"]);
     
     console.log(myArgs.keyValue("testArgs1"));
     console.log(myArgs.keyValue("testArgs2"));
@@ -185,11 +185,11 @@ Materials
 
 Materials - all files below were loaded because of templatization starting with testargs3.json
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs1.json)
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs2.json)
-* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs3.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs1.json)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs2.json)
+* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs3.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
 
 ### Bulk File Expansion
 #### Expansion in Array
@@ -197,7 +197,7 @@ Materials - all files below were loaded because of templatization starting with 
 
     ArguMints.verbose = true;
     // append some more 'command line' args.
-    myArgs.retort([["@test.txt","@testargs1.json"]]);
+    myArgs.retort([["@test/test.txt","@test/testargs1.json"]]);
     
     //results
     //test.txt contents loaded into the first array slot.
@@ -211,15 +211,15 @@ Materials - all files below were loaded because of templatization starting with 
 
 Materials
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs1.json)
 
 #### Expansion as a Key=Value store
 ```js
 
     ArguMints.verbose = true;
     // append some more 'command line' args.
-    myArgs.retort(["x=@test.txt","y=@testargs1.json"]);
+    myArgs.retort(["x=@test/test.txt","y=@test/testargs1.json"]);
     
     //results
     //test.txt contents are stored in the command table with key 'x'.
@@ -230,8 +230,8 @@ Materials
 
 Materials
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.0/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testargs1.json)
 
 ### Circular Expansion Protection
 If you accidentally circularly reference files during an expansion chain, you'll get an exception as show below. This avoids infinite loops and stack overflows when doing really crazy things with ArguMints.
@@ -239,7 +239,7 @@ If you accidentally circularly reference files during an expansion chain, you'll
 ```js
 
     ArguMints.verbose = true;
-    myArgs.retort(["x=@testarg_infinite.txt"]);
+    myArgs.retort(["x=@test/testarg_infinite.txt"]);
     
     //results
     // file refers to itself by having its contents be a valid url expansion, pointing to its own url.
@@ -250,7 +250,7 @@ If you accidentally circularly reference files during an expansion chain, you'll
 ```
 
 Materials
-* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testarg_infinite.txt)
+* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testarg_infinite.txt)
 
 #### Notes on File Expansion
 Files are expanded using the '@' character to denote resource location. This is either an absolute or relative local resource. And can be a Windows or Linux Path. Windows paths that have Spaces in the name must be surrounded by quotes!
@@ -270,7 +270,7 @@ The Following Formats are acceptable.
 ## Regular Expressions
 
 
-using '--argumints-match-argv' option we perform aggregate data mining and data gathering.
+using '--minty-match-argv' option we perform aggregate data mining and data gathering.
 
 ### CLI
 
@@ -278,7 +278,7 @@ using '--argumints-match-argv' option we perform aggregate data mining and data 
 
     // match all instances of the word 'ord' within the two textfiles provided.
     // matches are cumulative.
-    myArgs.retort(["--argumints-match-argv", "@testMatcher.txt", "@testMatcher2.txt", "/([A-Za-z0-9]*(ord)[A-Za-z]*)|(famil[A-Za-z0-9]*)/igm"]);
+    myArgs.retort(["--minty-match-argv", "@test/testMatcher.txt", "@test/testMatcher2.txt", "/([A-Za-z0-9]*(ord)[A-Za-z]*)|(famil[A-Za-z0-9]*)/igm"]);
     console.log(myArgs.matches());
     
     // result
@@ -302,30 +302,30 @@ using '--argumints-match-argv' option we perform aggregate data mining and data 
     
 ```
 Materials
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher2.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher2.txt)
 
 ### From File
 You can save a regExp in a file and readily use it as a JavaScript RegExp() object.
 ```js
 
-    // cmd line argumints-test.js --argumints-match-argv @testMatcher.txt @testMatcher2.txt @regExpOrd.txt
-    myArgs.retort(["--argumints-match-argv","@regExpOrd.txt", "@testMatcher.txt", "@testMatcher2.txt"]);
+    // cmd line argumints-test.js --minty-match-argv @test/testMatcher.txt @test/testMatcher2.txt @test/regExpOrd.txt
+    myArgs.retort(["--minty-match-argv","@test/regExpOrd.txt", "@test/testMatcher.txt", "@test/testMatcher2.txt"]);
     console.log(myArgs.matches());
     
 ```
 
 Materials
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher2.txt)
-* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/regExpOrd.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher2.txt)
+* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/regExpOrd.txt)
 
 ####OR USING KEY VALUE STORE
 ```js
 
-    // cmd line argumints-test.js --argumints-match-kv  @regExp.txt @testMatcher.txt @testMatcher2.txt
-    myArgs.retort(["--argumints-match-kv", "search=This is an email: myemail@address.com", "exp=@regExp.txt"]);
+    // cmd line argumints-test.js --minty-match-kv  @test/regExp.txt @test/testMatcher.txt @test/testMatcher2.txt
+    myArgs.retort(["--minty-match-kv", "search=This is an email: myemail@address.com", "exp=@test/regExp.txt"]);
     console.log(myArgs.matches());
     
     // use the reg ex again and again!
@@ -336,9 +336,9 @@ Materials
 
 Materials
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/testMatcher2.txt)
-* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.0/regExp.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/testMatcher2.txt)
+* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.33/test/regExp.txt)
 
 
 
@@ -497,7 +497,7 @@ setting this option will match all ordered arguments which aren't RegularExpress
     // the first two positional arguments are files containing text blobs. 
     // the third positional argument is a text file containing a regular expression which
     // will expand to a RegExp instance, and match against the content of the files.
-    myArgs.retort(["--minty-match-argv","@testMatcher.txt","@testMatcher2.txt", "@regExpOrd.txt"]);
+    myArgs.retort(["--minty-match-argv","@test/testMatcher.txt","@test/testMatcher2.txt", "@test/regExpOrd.txt"]);
     var matches = myArgs.matches();
 ```
 ###### --minty-match-kv
@@ -505,7 +505,7 @@ much like minty-match-argv, except this iterates through keyStore values rather 
 you must only set one of these two keys, they are mutually exclusive.
 ```js
     
-    myArgs.retort(["--minty-match-kv","file1=@testMatcher.txt","file2=@testMatcher2.txt", "searchRegExp=@regExpOrd.txt"]);
+    myArgs.retort(["--minty-match-kv","file1=@test/testMatcher.txt","file2=@test/testMatcher2.txt", "searchRegExp=@test/regExpOrd.txt"]);
     var matches = myArgs.matches();
 
 ```
@@ -590,7 +590,7 @@ same file will be faster. However, if your script modifies the file between reto
 
 ```js
 
-    myArgs.retort(["--minty-no-cache", "@test1.txt", "key1="@test1.txt", "key2="@test1.txt"]);
+    myArgs.retort(["--minty-no-cache", "@test/test1.txt", "key1="@test/test1.txt", "key2="@test/test1.txt"]);
     //result: test1.txt is reloaded 3 times
 
 ```
@@ -623,7 +623,7 @@ If no flagName is passed, a copy of the internal _opt table is returned for insp
     
 ```
 #### .keyValue(key=undefined)
-Returns the value stored under `key` in the keyStore. The Key Store is populated using the format `key=value` when passing in arguments. you can also specify files, i.e. `key=@test.txt`
+Returns the value stored under `key` in the keyStore. The Key Store is populated using the format `key=value` when passing in arguments. you can also specify files, i.e. `key=@test/test.txt`
 If no `key` is specified, a copy of the entire keyStore is returned for your inspection.
 
 ```js
@@ -633,12 +633,12 @@ If no `key` is specified, a copy of the entire keyStore is returned for your ins
     
 ```
 #### .matches(start=-1,end=-1)
-Returns any matches after a retort with a regular expression and having --argumints-match-argv or --argumints-match-kv enagbled.
+Returns any matches after a retort with a regular expression and having --minty-match-argv or --minty-match-kv enagbled.
 if `start` or `end` are specified, it will return a 'slice' of the matches contained within.
 
 ```js
 
-    // argumints-test --argumints-verbose --argumints-match-argv @testMatcher2.txt @regExpOrd.txt
+    // argumints-test --minty-verbose --minty-match-argv @test/testMatcher2.txt @test/regExpOrd.txt
     console.log(myArgs.retort().matches());            // true
 
 ```
