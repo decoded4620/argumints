@@ -6,7 +6,7 @@ var myMints = lib.myArguMints;
 // we're running from a script.
 ArguMints.nodeCLI = false;
 
-var dArgs =  ["--minty-dump", "--minty-verbose"];
+var dArgs =  [];//["--minty-dump", "--minty-verbose"];
 describe("ArguMints Test Suite - Vanilla -->", function() {
     describe("Test Empty Retort", function(){
         it("Retorts to no input arguments by the user", function() {
