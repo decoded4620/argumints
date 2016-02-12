@@ -6,24 +6,26 @@ var myMints = lib.myArguMints;
 // we're running from a script.
 ArguMints.nodeCLI = false;
 
-var dArgs =  [];//["--minty-dump", "--minty-verbose"];
+
+
+var dArgs = [];//["--minty-dump", "--minty-verbose"];
 describe("ArguMints Test Suite - Vanilla -->", function() {
     describe("Test Empty Retort", function(){
         it("Retorts to no input arguments by the user", function() {
             var calledRetortExpandCb = false;
             var calledRetortCompleteCb = false;
             
-            myMints.retort([    ],function(args){
-                calledRetortExpandCb = true;
-            },
-            function(arg, exp, idx, cnt){
-                calledRetortCompleteCb = true;
-            });
+            myMints.retort([],
+                function(args){
+                    calledRetortExpandCb = true;
+                },
+                function(arg, exp, idx, cnt){
+                    calledRetortCompleteCb = true;
+                }
+            );
             
             expect(calledRetortExpandCb).to.equal(true);
             expect(calledRetortCompleteCb).to.equal(true);
-            
-            ArguMints.verbose = false;
         });
     });
     
@@ -49,6 +51,13 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             expect(myMints.opt('op2')).to.equal(true);
             expect(myMints.opt('op3')).to.equal(true);
            
+            // single test to insure 'flag()' returns the copied object
+            // with equivalent properties.
+            expect(myMints.opt().op1).to.equal(true);
+            
+            // test that we're always copying rather than returning the internal instance
+            expect(myMints.opt() !== myMints.opt()).to.equal(true);
+            
             myMints.retort(["-xzvf", "-dywa"]);
            
             expect(myMints.flag('x')).to.equal(true);
@@ -59,6 +68,13 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             expect(myMints.flag('y')).to.equal(true);
             expect(myMints.flag('w')).to.equal(true);
             expect(myMints.flag('a')).to.equal(true);
+            
+            // single test to insure 'flag()' returns the copied object
+            // with equivalent properties.
+            expect(myMints.flag().x).to.equal(true);
+            
+            // test that we're always copying rather than returning the internal instance
+            expect(myMints.flag() !== myMints.flag()).to.equal(true);
            
             myMints.retort(["vacationDays=14", "changeInMyPocket=.27", "checkFor=null","meaningOfLife=undefined","zed=dead", "isIt=true", "theDude=abides"].concat(dArgs));
             
@@ -70,7 +86,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             expect(myMints.keyValue('zed')).to.equal("dead");
             expect(myMints.keyValue('theDude')).to.equal("abides");
            
-            expect(true).to.equal(true);
+            expect(typeof myMints.keyValue()).to.equal('object');
         });
     });
     
@@ -174,10 +190,11 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
     describe("Test Argument Manipulation-->", function(){
         it("Retorts and uses the retort expansion callback to manipulate arguments to modify the behavior of retort.--> ", function() {
             myMints.reset();
+            
          // the factorial function, ArguMints style!
             var fact = 1;
             myMints.retort( [4].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( typeof exp === 'number' && exp > 0){
+                if( (typeof exp) == 'number' && exp > 0){
                     fact *= exp;
                     myMints.insertArg(arg-1, 0);
                 }
@@ -187,7 +204,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             myMints.reset();
             fact = 1;
             myMints.retort( [0].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( typeof exp === 'number' && exp > 0){
+                if( (typeof exp) == 'number' && exp > 0){
                     fact *= exp;
                     myMints.insertArg(arg-1, 0);
                 }
@@ -201,7 +218,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             var sum = 0;
             var t = 4;  // first x numbers
             myMints.retort( [1].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( typeof exp === 'number' ){
+                if( (typeof exp) == 'number' ){
                     sum += exp;
                     
                     t--;
@@ -214,6 +231,4 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             expect(sum).to.equal(10);
         });
     });
-    
-    
 });

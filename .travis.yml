@@ -14,6 +14,15 @@ notifications:
   email:
     - barcher4620@gmail.com
 
+# taken directly from travis yml - angular.js
+# node 4 likes the G++ v4.8 compiler
+# see https://docs.travis-ci.com/user/languages/javascript-with-nodejs#Node.js-v4-(or-io.js-v3)-compiler-requirements
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 
 install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
@@ -21,10 +30,11 @@ install:
   - if [[ $TRAVIS_NODE_VERSION == "0.8" ]]; then npm install npm@2 && node_modules/.bin/npm install npm; else npm install npm; fi
   - mv node_modules npm
   - npm/.bin/npm --version
+  - npm/.bin/npm update
   - npm install mocha
   - npm install chai
+  - npm install underscore
   - npm/.bin/npm install
-  - npm/.bin/npm update
 
 script: 
     # http://mochajs.org/#reporters currently using 'spec'

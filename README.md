@@ -7,57 +7,51 @@
 
 ![travis!](https://travis-ci.org/decoded4620/argumints.svg?branch=master)
 
-Argumints is a Powerful Command Line Arguments Preprocessor and Data Mining Tool
+A Powerful Command Line Arguments Preprocessor and Data Mining Tool
+
 ## Benefits
-Easily create meaningful input to your scripts. Not only limited to CLI option/argv parsing, ArguMints is also a powerful 
-Data Gathering and Mining tool, template generator, and Regular Expression matcher.
+### CLI
+ - argv
+ - opt
+ - flags
+ - argc
+ - keyValue
+ 
+### Data Conversion
+ - convert cli input (argv or keyValue) into JS primitives automatically. 
 
-#### CLI
-    
-    argv        // positional arguments
-    Options     // --option arguments
-    Flags       // -fxvZ  type arguments
+### Data Mining
+ - Supports JSON input (in either argv or keyValue formats) which are converted into deep JS Objects, that you can mine.
+ - aggregate file content using the '@' file marker
+ - search argument input using regular expression arguments
 
-#### Data Gathering, Mining, and Template Generation
-use input arguments to gather file data, match with regular expressions to mine data you've gathered,
-and use input arguments and file expansion to create dynamic templates.
-
+### Robustness
+ - Uses Underscore JS for mining and copying / filtering / selection techniques.
 
 ## Usage
 
 
-#### How to use the default instance
-Requiring ArguMints provides a default ArguMints instance, with the configuration shown above.
+#### Default ArguMints Instance
+
 ```js
-    
-    var lib = require('argumints');
-    
-    // access a default instance via the 'myArguMints' built in
-    var myArgs = lib.myArguMints;
-    
-    // - OR -
-    
-    // the one liner.
+
     var myArgs = require('argumints').myArguMints;
-    
+
 ```
 
-#### How to roll your own instance!
+#### Roll your own instance
 ```js
 
-    // see the bottom of this document for more information
-    // on what the options do, and which options are available.
-    var options = { ignoreJson:true, treatBoolStringsAsBoolean:false };
     var lib = require('argumints');
-    
-    
-    var ArguMints = lib.ArguMints;
-    var myArgs = new ArguMints(options);
-    
-    // - OR -
-    
+    var myArgs = new lib.ArguMints();
+```
+
+ \- or \- 
+ 
+```js
+
     // the one liner
-    var myArgs = new require('argumints').ArguMints(options);
+    var myArgs = new require('argumints').ArguMints();
     
 ```
 ### Basic Examples 
@@ -69,14 +63,14 @@ Requiring ArguMints provides a default ArguMints instance, with the configuratio
     // C:\argumints> node argumints-test.js -xzfv --option arg0 arg1
     // NOTE: verbose is true here because failing a check for an option will 
     // revert to checking for the corresponding flag (usign first char of option name)
-    myArgs.retort(["-xzfv", "--option", "arg0", "arg1"]);
-    console.log(myArgs.opt("option"));                   // true
-    console.log(myArgs.opt("verbose"));                  // true
-    console.log(myArgs.flag("f"));                       // true
+    myArgs.retort(["-xz", "--op1","--op2", "arg0", "arg1"]);
+    console.log(myArgs.opt("op1"));                      // true
+    console.log(myArgs.opt("op2"));                      // true
     console.log(myArgs.flag("x"));                       // true
     console.log(myArgs.flag("z"));                       // true
     console.log(myArgs.argv(0));                         // arg0
     console.log(myArgs.argv(1));                         // arg1
+    console.log(myArgs.argc());                          // 2
 
 ```
 
@@ -93,9 +87,8 @@ Requiring ArguMints provides a default ArguMints instance, with the configuratio
 ```
 ### Advanced Examples
 
-    NOTE: Examples all from test materisals included with ArguMints package!
-
 #### Text File Expansion
+
 ```js
 
     // cmd line equivalent
@@ -105,9 +98,9 @@ Requiring ArguMints provides a default ArguMints instance, with the configuratio
     console.log(myArgs.argv(0)); // output the text file content
 ```
 
-Materials
+Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
 
 #### JSON Expansion in line
 JSON File Expansion works like regular File Expansion, with the additional benefit of grafting the resulting
@@ -115,16 +108,21 @@ JSON Data into either the keyStore, or onto the argv list after expansion, depen
 input ArguMint (see what I did there??).
 ```js
     
+    // Ex. 1
     // cmd line equivalent
     // C:\argumints> node argumints-test.js '{\"aProperty\":\"testValue\"}'
     myArgs.retort(["{\"aProperty\":\"testValue\"}"]);
-    
     console.log(myArgs.keyValue("aProperty"));               // testValue
     
-    // or
+    // Ex. 2
     myArgs.retort(["key=\"{\"aProperty\":\"testValue\"}\""]);
-    
     console.log(myArgs.keyValue("key").aProperty);           // testValue
+    
+    // Ex. 3
+    // cmd line equivalent
+    // C:\argumints> node argumints-test.js [1,2,3,4]
+    myArgs.retort(["[1,2,3,4]"]);
+    console.log(myArgs.argv(0)[2]);    // 3
 
 ```
 
@@ -144,9 +142,9 @@ input ArguMint (see what I did there??).
     
 ```
 
-Materials
+Test Materials:
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs1.json)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
 
 #### Recursive JSON File Expansion
 ```js
@@ -159,11 +157,11 @@ Materials
     console.log(myArgs.keyValue("fromFile2"));
      
 ```
-Materials
+Test Materials:
 
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs2.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test2.txt)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs2.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test2.txt)
 
 #### Recursive JSON File Expansion and Mining (Advanced)
 ```js
@@ -183,13 +181,13 @@ Materials
     
 ```
 
-Materials - all files below were loaded because of templatization starting with testargs3.json
+Test Materials: - all files below were loaded because of templatization starting with testargs3.json
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs1.json)
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs2.json)
-* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs3.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs2.json)
+* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs3.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
 
 ### Bulk File Expansion
 #### Expansion in Array
@@ -197,7 +195,7 @@ Materials - all files below were loaded because of templatization starting with 
 
     ArguMints.verbose = true;
     // append some more 'command line' args.
-    myArgs.retort([["@test/test.txt","@test/testargs1.json"]]);
+    myArgs.retort([["@test/test.txt","@test/testargs1.json" /*[,nextFile...]*/]]);
     
     //results
     //test.txt contents loaded into the first array slot.
@@ -209,10 +207,10 @@ Materials - all files below were loaded because of templatization starting with 
     
 ```
 
-Materials
+Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
 
 #### Expansion as a Key=Value store
 ```js
@@ -228,10 +226,10 @@ Materials
     
 ```
 
-Materials
+Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
 
 ### Circular Expansion Protection
 If you accidentally circularly reference files during an expansion chain, you'll get an exception as show below. This avoids infinite loops and stack overflows when doing really crazy things with ArguMints.
@@ -249,8 +247,8 @@ If you accidentally circularly reference files during an expansion chain, you'll
     
 ```
 
-Materials
-* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testarg_infinite.txt)
+Test Materials:
+* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testarg_infinite.txt)
 
 #### Notes on File Expansion
 Files are expanded using the '@' character to denote resource location. This is either an absolute or relative local resource. And can be a Windows or Linux Path. Windows paths that have Spaces in the name must be surrounded by quotes!
@@ -280,7 +278,15 @@ NOTE: Regular expressions must be surrounded by \`\` backticks to alert ArguMint
 
     // match all instances of the substring 'ord' or 'famil' within the two textfiles provided.
     // matches are cumulative.
-    myArgs.retort(["--minty-match-argv", "@test/testMatcher.txt", "@test/testMatcher2.txt", "/([A-Za-z0-9]*(ord)[A-Za-z]*)|(famil[A-Za-z0-9]*)/igm"]);
+    myArgs.retort(
+        [
+            "--minty-match-argv", 
+            "@test/testMatcher.txt", "@test/testMatcher2.txt", 
+            "/([A-Za-z0-9]*(ord)[A-Za-z]*)|(famil[A-Za-z0-9]*)/igm"     // <--- NOTE Backticks around RegExp 
+        ]                                                               // not rendering in markdown js sections. 
+                                                                        // But they're there!!
+    );                                                              
+                                       
     console.log(myArgs.matches());
     
     // result
@@ -303,9 +309,9 @@ NOTE: Regular expressions must be surrounded by \`\` backticks to alert ArguMint
     */
     
 ```
-Materials
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher2.txt)
+Test Materials:
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
 
 ### From File
 You can save a regExp in a file and readily use it as a JavaScript RegExp() object.
@@ -317,11 +323,11 @@ You can save a regExp in a file and readily use it as a JavaScript RegExp() obje
     
 ```
 
-Materials
+Test Materials:
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher2.txt)
-* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/regExpOrd.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
+* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/regExpOrd.txt)
 
 ####OR USING KEY VALUE STORE
 ```js
@@ -336,18 +342,18 @@ Materials
     
 ```
 
-Materials
+Test Materials:
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/testMatcher2.txt)
-* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.36/test/regExp.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
+* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/regExp.txt)
 
 
 
 ### The Options {} Object:
 
-You may pass an options object to ArguMints so it will understand how to 'retort' to your input.
-Below are the default values used by ArguMints should none be passed in
+You may pass an `options` object to `ArguMints` so it will understand how to `retort` to your input.
+Below are the default values used by `ArguMints` should none be passed in. Also, the `myArguMints` object
 ```js
 
     var options = {
@@ -360,6 +366,9 @@ Below are the default values used by ArguMints should none be passed in
         ignoreJson:false                        // ignore json formatting and return the literal string value.
     };
     
+    
+    
+    
 ```
 
 
@@ -367,27 +376,13 @@ Below are the default values used by ArguMints should none be passed in
 
 Node
 
-### Installation and usage
+### Installation
 
-Node, browserify:
 ```
 npm install argumints
 ```
 
-```js
-
-    var ArguMints = require('argumints').ArguMints;
-    var options = {
-                verbose:true,
-                treatBoolStringsAsBoolean:true,
-                treatNullStringsAsNull:true,
-                treatRegExStringsAsRegEx:true,
-                ignoreJson:false,
-                enableFileExpansion:true
-            };
-    var ag = new ArguMints(options).retort();
-    
-```
+## API
 
 ### Methods
 
@@ -409,27 +404,25 @@ You Can call `retort()` multiple times, with an array of arguments, or with no a
 
 ```js
 
-    myArgs.retort([1,2,3,"--minty-op-div"], onStart, onRetortEach);
+    myArgs.retort([1,2,3], onStart, onRetortEach);
     
     function onStart(args){
-        console.log("there are: " + args.length + " input args"); // 4    
+        console.log("there are: " + args.length + " input args"); // 3    
     }
     function onRetortEach(arg, exp, idx, cnt){
-        console.log(origV + "=>" + newV + ", is last one? " + (idx == cnt-1));
+        console.log(arg + "=>" + exp + ", is last one? " + (idx == cnt-1));
     }
 
 ```
-### wheresMyNode
-Node installation location.
 
 ### getUserArgs()
 Returns all arguments passed in originally by the user (prior to expansion)
 
 ```js
     
-    // node argumints-test.js arg1 arg2 --opt1 --opt2 key1=val1 key2=val2
+    // node argumints-test.js arg1 arg2 --opt1 --opt2 -fxzy key1=val1 key2=val2
     console.log(myArgs.retort().getUserArgs());
-    //output is   [arg1, arg2, --opt1, --opt2, key1=value1, key2=val2]
+    //output is   [arg1, arg2, --opt1, --opt2, -fxzy, key1=val1, key2=val2]
 
 ```
 
@@ -444,13 +437,15 @@ Returns the script arguments which are either of length 1 or 2, depending on whe
     // OR         [C:\path\to\node.exe]  when running in Node Command Line.
     
 ```
+### .argc()
+Returns the number of positional user arguments.
 
-#### .argv(atIndex)
-Returns the ordered argument passed into the Node Script at the specified index.
+#### .argv(atIndex=null)
+Returns the ordered argument passed into the Node Script at the specified index, or all items if the index is not specified.
 
 ```js
 
-    // node argumints-test.js helpMe! thank you
+    // node argumints-test.js helpMe! thank you -fx --opt1
     console.log(myArgs.retort().argv(1));            // output: helpMe!
     
     // get them all
@@ -654,7 +649,7 @@ dynamic templated calculations and datamining.
      // the factorial function, ArguMints style!
     var fact = 1;
     defaultMints.retort( [3],null, function(arg, exp, idx, cnt){
-        if( typeof exp === 'number' && exp > 0){
+        if( typeof exp == 'number' && exp > 0){
             fact *= exp;
             defaultMints.insertArg(arg-1, 0);
         }
