@@ -100,7 +100,7 @@ A Powerful Command Line Arguments Preprocessor and Data Mining Tool
 
 Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
 
 #### JSON Expansion in line
 JSON File Expansion works like regular File Expansion, with the additional benefit of grafting the resulting
@@ -144,7 +144,7 @@ input ArguMint (see what I did there??).
 
 Test Materials:
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs1.json)
 
 #### Recursive JSON File Expansion
 ```js
@@ -159,9 +159,9 @@ Test Materials:
 ```
 Test Materials:
 
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs2.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test2.txt)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs2.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test2.txt)
 
 #### Recursive JSON File Expansion and Mining (Advanced)
 ```js
@@ -183,11 +183,11 @@ Test Materials:
 
 Test Materials: - all files below were loaded because of templatization starting with testargs3.json
 
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
-* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs2.json)
-* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs3.json)
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
-* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs1.json)
+* [testargs2.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs2.json)
+* [testargs3.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs3.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
+* [test2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
 
 ### Bulk File Expansion
 #### Expansion in Array
@@ -209,8 +209,8 @@ Test Materials: - all files below were loaded because of templatization starting
 
 Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs1.json)
 
 #### Expansion as a Key=Value store
 ```js
@@ -228,8 +228,8 @@ Test Materials:
 
 Test Materials:
 
-* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/test.txt)
-* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testargs1.json)
+* [test.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/test.txt)
+* [testargs1.json](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testargs1.json)
 
 ### Circular Expansion Protection
 If you accidentally circularly reference files during an expansion chain, you'll get an exception as show below. This avoids infinite loops and stack overflows when doing really crazy things with ArguMints.
@@ -248,7 +248,7 @@ If you accidentally circularly reference files during an expansion chain, you'll
 ```
 
 Test Materials:
-* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testarg_infinite.txt)
+* [testarg_infinite.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testarg_infinite.txt)
 
 #### Notes on File Expansion
 Files are expanded using the '@' character to denote resource location. This is either an absolute or relative local resource. And can be a Windows or Linux Path. Windows paths that have Spaces in the name must be surrounded by quotes!
@@ -310,8 +310,8 @@ NOTE: Regular expressions must be surrounded by \`\` backticks to alert ArguMint
     
 ```
 Test Materials:
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher2.txt)
 
 ### From File
 You can save a regExp in a file and readily use it as a JavaScript RegExp() object.
@@ -325,9 +325,9 @@ You can save a regExp in a file and readily use it as a JavaScript RegExp() obje
 
 Test Materials:
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
-* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/regExpOrd.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher2.txt)
+* [regExpOrd.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/regExpOrd.txt)
 
 ####OR USING KEY VALUE STORE
 ```js
@@ -344,9 +344,9 @@ Test Materials:
 
 Test Materials:
 
-* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher.txt)
-* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/testMatcher2.txt)
-* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.40/test/regExp.txt)
+* [testMatcher.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher.txt)
+* [testMatcher2.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/testMatcher2.txt)
+* [regExp.txt](https://npm-cdn.herokuapp.com/argumints@1.2.41/test/regExp.txt)
 
 
 

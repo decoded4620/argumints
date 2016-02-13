@@ -47,9 +47,9 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             
             myMints.retort(["--op1", "--op2", "--op3"].concat(dArgs));
             
-            expect(myMints.opt('op1')).to.equal(true);
-            expect(myMints.opt('op2')).to.equal(true);
-            expect(myMints.opt('op3')).to.equal(true);
+            expect(myMints.opt("op1")).to.equal(true);
+            expect(myMints.opt("op2")).to.equal(true);
+            expect(myMints.opt("op3")).to.equal(true);
            
             // single test to insure 'flag()' returns the copied object
             // with equivalent properties.
@@ -60,14 +60,14 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             
             myMints.retort(["-xzvf", "-dywa"]);
            
-            expect(myMints.flag('x')).to.equal(true);
-            expect(myMints.flag('z')).to.equal(true);
-            expect(myMints.flag('v')).to.equal(true);
-            expect(myMints.flag('f')).to.equal(true);
-            expect(myMints.flag('d')).to.equal(true);
-            expect(myMints.flag('y')).to.equal(true);
-            expect(myMints.flag('w')).to.equal(true);
-            expect(myMints.flag('a')).to.equal(true);
+            expect(myMints.flag("x")).to.equal(true);
+            expect(myMints.flag("z")).to.equal(true);
+            expect(myMints.flag("v")).to.equal(true);
+            expect(myMints.flag("f")).to.equal(true);
+            expect(myMints.flag("d")).to.equal(true);
+            expect(myMints.flag("y")).to.equal(true);
+            expect(myMints.flag("w")).to.equal(true);
+            expect(myMints.flag("a")).to.equal(true);
             
             // single test to insure 'flag()' returns the copied object
             // with equivalent properties.
@@ -78,15 +78,15 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
            
             myMints.retort(["vacationDays=14", "changeInMyPocket=.27", "checkFor=null","meaningOfLife=undefined","zed=dead", "isIt=true", "theDude=abides"].concat(dArgs));
             
-            expect(myMints.keyValue('isIt')).to.equal(true);
-            expect(myMints.keyValue('checkFor')).to.equal(null);
-            expect(myMints.keyValue('vacationDays')).to.equal(14);
-            expect(myMints.keyValue('changeInMyPocket')).to.equal(.27);
-            expect(myMints.keyValue('meaningOfLife')).to.equal(undefined);
-            expect(myMints.keyValue('zed')).to.equal("dead");
-            expect(myMints.keyValue('theDude')).to.equal("abides");
+            expect(myMints.keyValue("isIt")).to.equal(true);
+            expect(myMints.keyValue("checkFor")).to.equal(null);
+            expect(myMints.keyValue("vacationDays")).to.equal(14);
+            expect(myMints.keyValue("changeInMyPocket")).to.equal(.27);
+            expect(myMints.keyValue("meaningOfLife")).to.equal(undefined);
+            expect(myMints.keyValue("zed")).to.equal("dead");
+            expect(myMints.keyValue("theDude")).to.equal("abides");
            
-            expect(typeof myMints.keyValue()).to.equal('object');
+            expect(typeof myMints.keyValue()).to.equal("object");
         });
     });
     
@@ -101,13 +101,13 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             // arguments for the test.
             myMints.retort(['{"keyValStr":"str", "keyValInt":1, "keyValDouble":1.00000001, "keyValBool":true, "keyValArr":[1,2,3], "keyValObj":{"name":"anObject"}, "keyValNul":null }'].concat(dArgs));
             
-            expect(myMints.keyValue('keyValStr')).to.equal("str");
-            expect(myMints.keyValue('keyValInt')).to.equal(1);
-            expect(myMints.keyValue('keyValDouble')).to.equal(1.00000001);
-            expect(myMints.keyValue('keyValBool')).to.equal(true);
-            expect(myMints.keyValue('keyValArr')[2]).to.equal(3);
-            expect(myMints.keyValue('keyValObj').name).to.equal("anObject");
-            expect(myMints.keyValue('keyValNul')).to.equal(null);
+            expect(myMints.keyValue("keyValStr")).to.equal("str");
+            expect(myMints.keyValue("keyValInt")).to.equal(1);
+            expect(myMints.keyValue("keyValDouble")).to.equal(1.00000001);
+            expect(myMints.keyValue("keyValBool")).to.equal(true);
+            expect(myMints.keyValue("keyValArr")[2]).to.equal(3);
+            expect(myMints.keyValue("keyValObj").name).to.equal("anObject");
+            expect(myMints.keyValue("keyValNul")).to.equal(null);
         });
     });
     
@@ -140,7 +140,6 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             myMints.retort(["--minty-append-dup-keys","key1=2", "key1=3", "key2=5"].concat(dArgs));
 
             expect(myMints.keyValue("key1")).to.equal(myMints.keyValue("key2"));
-            
             myMints.reset();
             myMints.retort(["--minty-append-dup-keys", "key1=@test/test.txt", "key1=@test/test2.txt", "key2=@test/test.txt", "key3=@test/test2.txt"].concat(dArgs));
 
@@ -194,7 +193,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
          // the factorial function, ArguMints style!
             var fact = 1;
             myMints.retort( [4].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( (typeof exp) == 'number' && exp > 0){
+                if( (typeof exp) == "number" && exp > 0){
                     fact *= exp;
                     myMints.insertArg(arg-1, 0);
                 }
@@ -204,7 +203,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             myMints.reset();
             fact = 1;
             myMints.retort( [0].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( (typeof exp) == 'number' && exp > 0){
+                if( (typeof exp) == "number" && exp > 0){
                     fact *= exp;
                     myMints.insertArg(arg-1, 0);
                 }
@@ -218,7 +217,7 @@ describe("ArguMints Test Suite - Vanilla -->", function() {
             var sum = 0;
             var t = 4;  // first x numbers
             myMints.retort( [1].concat(dArgs),null, function(arg, exp, idx, cnt){
-                if( (typeof exp) == 'number' ){
+                if( (typeof exp) == "number" ){
                     sum += exp;
                     
                     t--;
