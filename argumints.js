@@ -1,31 +1,34 @@
 (function() {
-    var ArguMintsException = require("./exception.js").ArguMintsException;
-    var ArguMintStats = require("./stats.js").ArguMintStats;
-    var ArguMintRules = require("./rules.js").ArguMintRules;
 
+    var Requires = require("./requires.js");
+    var ArguMintsException = /*require("./exception.js")*/Requires.ArguMintsException;
+    var ArguMintStats = /*require("./stats.js")*/Requires.ArguMintStats;
+    var ArguMintRules = /*require("./rules.js")*/Requires.ArguMintRules;
+    var AuxUtils = /*require("./aux_utils.js")*/Requires.AuxUtils;
+    
+    // a set of 'Built In' Extensions
+    var BuiltIns = /*require("./argumints-builtins.js")*/Requires.BuiltIns;
+    
     // used for filtering selecting, etc.
     var _ = require("underscore");
     var fs = require("fs");
 
     //@private
     var _rules = new ArguMintRules();
-
-    function isNull(o){
-        return o === null || o === undefined;
-    }
+    
     var ArguMintsExtensions = (function() {
 
         function ArguMintsExtensions() {
             var mintyOps = {};
             var mintyKSOps = {};
             var mintyKSOpQueue = [];
-            
+
             var mintyAGOps = {};
             var mintyAGOpQueue = [];
-            
+
             //
             ArguMintsExtensions.prototype.hasKeyStoreOp = function(mintyKSOpStr) {
-                return mintyKSOps.hasOwnProperty(mintyKSOpStr) && !isNull(mintyKSOps[mintyKSOpStr]);
+                return mintyKSOps.hasOwnProperty(mintyKSOpStr) && !AuxUtils.isNully(mintyKSOps[mintyKSOpStr]);
             };
             //
             ArguMintsExtensions.prototype.addKeyStoreOp = function(mintyKSOpStr, op) {
@@ -52,15 +55,15 @@
             ArguMintsExtensions.prototype.hasAggregateOps = function() {
                 return mintyAGOpQueue.length > 0;
             };
-            
-            ArguMintsExtensions.prototype.execAggregateOps = function( commandTable, stopOnFirst){
+
+            ArguMintsExtensions.prototype.execAggregateOps = function(commandTable, stopOnFirst) {
                 var retVal = false;
 
                 for (var i = 0; i < mintyAGOpQueue.length; ++i) {
                     var opData = mintyAGOpQueue[i];
 
-                    if (!isNull(opData)) {
-                        
+                    if (!AuxUtils.isNully(opData)) {
+
                         // only execute if the option is enabled.
                         if (commandTable.opt[opData.name] === true) {
                             var op = opData.op;
@@ -89,7 +92,7 @@
                 for (var i = 0; i < mintyKSOpQueue.length; ++i) {
                     var opData = mintyKSOpQueue[i];
 
-                    if (!isNull(opData)) {
+                    if (!AuxUtils.isNully(opData)) {
                         // only execute if the option is enabled.
                         if (inOptions[opData.name] === true) {
                             var op = opData.op;
@@ -108,7 +111,7 @@
             };
             //
             ArguMintsExtensions.prototype.hasOp = function(mintyOpStr) {
-                return mintyOps.hasOwnProperty(mintyOpStr) && !isNull(mintyOps[mintyOpStr]);
+                return mintyOps.hasOwnProperty(mintyOpStr) && !AuxUtils.isNully(mintyOps[mintyOpStr]);
             };
 
             //
@@ -122,7 +125,7 @@
 
             //
             ArguMintsExtensions.prototype.getOp = function(mintyOpStr) {
-                return isNull(mintyOps[mintyOpStr]) ? null : mintyOps[mintyOpStr];
+                return AuxUtils.isNully(mintyOps[mintyOpStr]) ? null : mintyOps[mintyOpStr];
             };
 
             //
@@ -130,7 +133,7 @@
                 var opData = mintyOps[mintyOpStr]
 
                 (function executeR(inOpData) {
-                    if (!isNull(opData)) {
+                    if (!AuxUtils.isNully(opData)) {
                         var op = opData.op;
                         if (typeof op == "function") {
                             op();
@@ -174,7 +177,7 @@
         // specify
         function setKeyStoreValue(key, value) {
 
-            if (!isNull(key) && typeof key == "string") {
+            if (!AuxUtils.isNully(key) && typeof key == "string") {
                 key = key.trim();
 
                 var keyStore = _commandTable.keyStore;
@@ -182,7 +185,7 @@
                 var handled = false;
                 if (ArguMints.extensions.hasKeyStoreOps()) {
                     // stop on first by default.
-                    handled= ArguMints.extensions.execKeyStoreOps([ _commandTable, key, value
+                    handled = ArguMints.extensions.execKeyStoreOps([ _commandTable, key, value
                     ], _commandTable.opt, true);
 
                     if (!handled) {
@@ -219,7 +222,7 @@
 
         ArguMints.prototype.reset = function(newOptions) {
 
-            if (_rules.protoName(newOptions) == ArguMintRules.OBJ) {
+            if (AuxUtils.typeName(newOptions) == AuxUtils.OBJ) {
                 _options = newOptions;
             }
             _stats.reset();
@@ -256,11 +259,11 @@
                 }
 
                 if (ArguMints.verbose) {
-                    if (_rules.protoName(o) == ArguMintRules.ARR) {
-                        console.log(spacing + "ArguMints.dump(" + _dumpDepth + ") - " + _rules.protoName(o, true) + " - array length: " + o.length);
+                    if (AuxUtils.typeName(o) == AuxUtils.ARR) {
+                        console.log(spacing + "ArguMints.dump(" + _dumpDepth + ") - " + AuxUtils.typeName(o, true) + " - array length: " + o.length);
                     }
                     else {
-                        console.log(spacing + "ArguMints.dump(" + _dumpDepth + ") - " + _rules.protoName(o, true));
+                        console.log(spacing + "ArguMints.dump(" + _dumpDepth + ") - " + AuxUtils.typeName(o, true));
                     }
                 }
                 if (o === null) {
@@ -269,7 +272,7 @@
                 else {
                     var objtype = typeof o;
                     var value, type, pName, tag;
-                    if (_rules.protoName(o) == ArguMintRules.ARR) {
+                    if (AuxUtils.typeName(o) == AuxUtils.ARR) {
 
                         // avoid circular reference dumping
                         if (!dMap.has(o)) {
@@ -281,7 +284,7 @@
                                 type = (typeof value);
                                 tag = ArguMints.verbose ? "[" + x + "]  " : "";
                                 if (type == "object") {
-                                    console.log(spacing + tag + _rules.protoName(value, true) + "(" + type + ")");
+                                    console.log(spacing + tag + AuxUtils.typeName(value, true) + "(" + type + ")");
                                     console.log((spacing + chunk + "--------------------------------------------------------").substring(0, 50));
                                     dump(value, dMap);
                                     console.log((spacing + chunk + "--------------------------------------------------------").substring(0, 50));
@@ -305,14 +308,14 @@
                             dMap.set(o, true);
                             for ( var prop in o) {
                                 // gets rid of unwanted prototype properties.
-                                if(o.hasOwnProperty(prop)){
+                                if (o.hasOwnProperty(prop)) {
                                     cnt++;
                                     value = o[prop];
                                     type = (typeof value);
-                                    pName = _rules.protoName(value, true);
-    
+                                    pName = AuxUtils.typeName(value, true);
+
                                     if (type == "object") {
-                                        if (pName == ArguMintRules.ARR) {
+                                        if (pName == AuxUtils.ARR) {
                                             console.log(spacing + "[" + prop + "] " + pName + ", length: " + value.length);
                                         }
                                         else {
@@ -321,7 +324,7 @@
                                         console.log((spacing + chunk + "--------------------------------------------------------").substring(0, 50));
                                         dump(value, dMap);
                                         console.log((spacing + chunk + "--------------------------------------------------------").substring(0, 50));
-    
+
                                     }
                                     else {
                                         console.log(spacing + prop + "=" + value + "(" + type + ")");
@@ -374,8 +377,8 @@
         };
 
         ArguMints.prototype.opt = function(optName) {
-            if (_rules.protoName(optName) != ArguMintRules.UDF) {
-                if (_rules.protoName(_commandTable.opt[optName]) != ArguMintRules.UDF) {
+            if (AuxUtils.typeName(optName) != AuxUtils.UDF) {
+                if (AuxUtils.typeName(_commandTable.opt[optName]) != AuxUtils.UDF) {
                     return _commandTable.opt[optName];
                 }
                 return false;
@@ -388,7 +391,7 @@
 
         ArguMints.prototype.keyValue = function(key) {
 
-            if (_rules.protoName(key) == ArguMintRules.STR && key.length > 0) {
+            if (AuxUtils.typeName(key) == AuxUtils.STR && key.length > 0) {
                 return _commandTable.keyStore[key];
             }
             else {
@@ -398,8 +401,8 @@
         };
 
         ArguMints.prototype.flag = function(flag) {
-            if (!isNull(flag) && flag !== "") {
-                if (_rules.protoName(_commandTable.flags[flag]) != ArguMintRules.UDF) {
+            if (!AuxUtils.isNully(flag) && flag !== "") {
+                if (AuxUtils.typeName(_commandTable.flags[flag]) != AuxUtils.UDF) {
                     return _commandTable.flags[flag];
                 }
 
@@ -413,11 +416,11 @@
 
             var ret = tagInput;
             // pass through if not a string or properly formatted, or we are not enabling file expansion
-            if (false === _options.enableFileExpansion || _rules.protoName(ret) !== ArguMintRules.STR || ret.charAt(0) !== '@') {
+            if (false === _options.enableFileExpansion || AuxUtils.typeName(ret) !== AuxUtils.STR || ret.charAt(0) !== '@') {
                 return ret;
             }
             else {
-                if (isNull(_fileExpansionChain)) {
+                if (AuxUtils.isNully(_fileExpansionChain)) {
                     _fileExpansionChain = [];
                 }
 
@@ -432,11 +435,11 @@
                 _fileExpansionChain.push(tagInput);
                 var cachedValue = _rules.getFileCache(tagInput);
 
-                if (isNull(cachedValue)) {
+                if (AuxUtils.isNully(cachedValue)) {
                     //this is a file, load it synchronously here
                     //process its contents as utf8
                     var fn = ret.substring(1);
-                    
+
                     if (ArguMints.verbose) {
                         console.log("ArguMints.expandFileArg(" + fn + ") - " + _fileExpansionChain.join("->"));
                     }
@@ -452,7 +455,7 @@
                         // overwrite our value with the data from the file and continue
                         ret = hasContent ? fs.readFileSync(fn, "utf8") : "";
 
-                        if (hasContent && !isNull(ret)) {
+                        if (hasContent && !AuxUtils.isNully(ret)) {
                             ret = ret.trim();
                         }
 
@@ -463,7 +466,7 @@
                         if (_commandTable.opt["minty-no-cache"] !== true) {
                             _rules.cacheFileContent(tagInput, ret);
                         }
-                        else{
+                        else {
                             if (ArguMints.verbose) {
                                 console.log("ArguMints.expandFile() not caching file at: " + tagInput + ", caching is off");
                             }
@@ -487,7 +490,7 @@
 
         ArguMints.prototype.pushArg = function(moreArgOrArgs) {
             if (_stats.isRecording() && moreArgOrArgs !== undefined) {
-                if (_rules.protoName(moreArgOrArgs) !== ArguMintRules.ARR) {
+                if (AuxUtils.typeName(moreArgOrArgs) !== AuxUtils.ARR) {
                     _userArgs[_userArgs.length] = moreArgOrArgs;
                 }
                 else {
@@ -501,11 +504,11 @@
 
             if (_stats.isRecording() && moreArgOrArgs !== undefined) {
                 var idx = _currRetortIndex;
-                if (_rules.protoName(xArgsFromHere) === ArguMintRules.NUM) {
+                if (AuxUtils.typeName(xArgsFromHere) === AuxUtils.NUM) {
                     idx += xArgsFromHere;
                 }
                 if (idx <= _userArgs.length) {
-                    if (_rules.protoName(moreArgOrArgs) !== ArguMintRules.ARR) {
+                    if (AuxUtils.typeName(moreArgOrArgs) !== AuxUtils.ARR) {
                         _userArgs.splice(idx, 0, moreArgOrArgs);
                     }
                     else {
@@ -518,10 +521,11 @@
         // build the command table from the users Arguments
         ArguMints.prototype.retort = function(moreUserArgs, onStart, onArgExpand) {
 
+            
             _stats.recordStart();
             _currRetortIndex = 0;
             // insure we always have default options
-            if (isNull(_options)) {
+            if (AuxUtils.isNully(_options)) {
                 _options = {
                     treatBoolStringsAsBoolean : true,
                     treatNullStringsAsNull : true,
@@ -540,13 +544,14 @@
             // if the user calls retort multiple times with 
             // concatenations of arguments, we'll append them to
             // userArgs below
-            if (isNull(_userArgs)) {
+            if (AuxUtils.isNully(_userArgs)) {
                 if (ArguMints.verbose) {
                     console.log("ArguMints.retort() - building initial ArguMints set");
                 }
                 // table of parsed input arguments.
                 _commandTable = {
                     argv : [],
+                    matches : [],
                     flags : {},
                     opt : {},
                     keyStore : {}
@@ -573,13 +578,13 @@
                     _scriptArgs = process.argv.slice(0, 2);
 
                     // path to node installation
-                    _nodeLocation   = _scriptArgs[0];
-                    
+                    _nodeLocation = _scriptArgs[0];
+
                     // path to this script
-                    _scriptPath     = _scriptArgs[1];
+                    _scriptPath = _scriptArgs[1];
 
                     // any additional args
-                    _userArgs       = process.argv.slice(2);
+                    _userArgs = process.argv.slice(2);
                 }
 
                 retortIndex = 0;
@@ -593,13 +598,13 @@
                 retortIndex = _userArgs.length;
             }
 
-            if (!isNull(moreUserArgs)) {
+            if (!AuxUtils.isNully(moreUserArgs)) {
                 _userArgs = _userArgs.concat(moreUserArgs);
             }
 
-            var uLen = isNull(_userArgs) ? 0 : _userArgs.length;
+            var uLen = AuxUtils.isNully(_userArgs) ? 0 : _userArgs.length;
 
-            if (!isNull(onStart)) {
+            if (!AuxUtils.isNully(onStart)) {
                 onStart(_userArgs.concat());
             }
 
@@ -624,22 +629,22 @@
 
                     // if file expansion results in null or empty string,
                     // push this value onto the command args list now and short circuit.
-                    if (argAt === "" || isNull(argAt)) {
+                    if (argAt === "" || AuxUtils.isNully(argAt)) {
                         _commandTable.argv.push(argAt);
 
                         // invoke the expansion callback
-                        if (!isNull(onArgExpand)) {
+                        if (!AuxUtils.isNully(onArgExpand)) {
                             onArgExpand(_userArgs[i], argAt, i, _userArgs.length);
                         }
 
                         continue;
                     }
 
-                    var protoStr = _rules.protoName(argAt);
+                    var protoStr = AuxUtils.typeName(argAt);
 
                     // this was expanded into an object
-                    if (protoStr == ArguMintRules.OBJ) {
-                        if (protoStr !== ArguMintRules.REGX) {
+                    if (protoStr == AuxUtils.OBJ) {
+                        if (protoStr !== AuxUtils.REGX) {
                             copyCommandsFrom(argAt);
                         }
                         else {
@@ -648,11 +653,11 @@
                         }
 
                         // invoke the expansion callback
-                        if (!isNull(onArgExpand)) {
+                        if (!AuxUtils.isNully(onArgExpand)) {
                             onArgExpand(_userArgs[i], argAt, i, _userArgs.length);
                         }
                     }
-                    else if (protoStr == ArguMintRules.STR) {
+                    else if (protoStr == AuxUtils.STR) {
                         // first index of assignment operator in argument
                         var aIdx = argAt.indexOf("=");
                         var qIdx = argAt.indexOf('"');
@@ -674,15 +679,14 @@
                                         console.log("ArguMints.retort() - add option at: " + i + ", argument: " + argAt);
                                     }
 
-
-                                    if (!isNull(onArgExpand)) {
+                                    if (!AuxUtils.isNully(onArgExpand)) {
                                         onArgExpand(_userArgs[i], argAt, i, _userArgs.length);
                                     }
-                                    
+
                                     _commandTable.opt[argAt.substring(2)] = true;
                                 }
                                 else {
-                                    
+
                                     if (ArguMints.verbose) {
                                         console.log("ArguMints.retort() - add flag at: " + i + ", argument: " + argAt);
                                     }
@@ -692,7 +696,7 @@
 
                                         _commandTable.flags[argAt.charAt(x)] = true;
 
-                                        if (!isNull(onArgExpand)) {
+                                        if (!AuxUtils.isNully(onArgExpand)) {
                                             onArgExpand(_userArgs[i], argAt.charAt(x), i, _userArgs.length);
                                         }
                                     }
@@ -706,7 +710,7 @@
                                 argAt = expandString(argAt);
 
                                 // if expansion worked.
-                                if (_rules.protoName(argAt, true) !== ArguMintRules.STR) {
+                                if (AuxUtils.typeName(argAt, true) !== AuxUtils.STR) {
                                     if (ArguMints.verbose) {
                                         console.log("ArguMints.retort() -add object formatted input, parsed..." + argAt);
                                     }
@@ -721,7 +725,7 @@
                                     _commandTable.argv.push(argAt);
                                 }
 
-                                if (!isNull(onArgExpand)) {
+                                if (!AuxUtils.isNully(onArgExpand)) {
                                     onArgExpand(_userArgs[i], argAt, i, _userArgs.length);
                                 }
                             }
@@ -731,15 +735,18 @@
                             // substring rather than split
                             // so we don't end up splitting the
                             // '=' after the first (because that's content)
-                            var pts = [ 
-                                        argAt.substring(0, aIdx), 
-                                        argAt.substring(aIdx + 1, argAt.length) 
+                            var pts = [ argAt.substring(0, aIdx), argAt.substring(aIdx + 1, argAt.length)
                             ];
-
+                            
+                            var pKey = pts[0];
                             // trim each to avoid keys with
                             // spaces in the name should folks be silly
-                            setKeyStoreValue(pts[0], expandString(pts[1].trim()));
+                            setKeyStoreValue(pKey, expandString(pts[1].trim()));
 
+                            if (!AuxUtils.isNully(onArgExpand)) {
+                                onArgExpand(_userArgs[i], _commandTable.keyStore[pKey], i, _userArgs.length);
+                            }
+                            
                             if (ArguMints.verbose) {
                                 console.log("ArguMints.retort() -set final retort for" + pts[0] + " to (" + _commandTable.keyStore[pts[0]] + ")");
                             }
@@ -752,7 +759,7 @@
                         _commandTable.argv.push(argAt);
 
                         // invoke the expansion callback
-                        if (!isNull(onArgExpand)) {
+                        if (!AuxUtils.isNully(onArgExpand)) {
                             onArgExpand(_userArgs[i], argAt, i, _userArgs.length);
                         }
                     }
@@ -775,11 +782,10 @@
                     console.log("ArguMints.retort() completed: " + (uLen - retortIndex) + " additional arguments were passed in by the user " + _userArgs.slice(retortIndex));
                 }
             }
-            
-            if(ArguMints.extensions.hasAggregateOps){
-                ArguMints.extensions.execAggregateOps( _commandTable, false);
-            }
 
+            if (ArguMints.extensions.hasAggregateOps) {
+                ArguMints.extensions.execAggregateOps(_commandTable, false);
+            }
 
             if (_commandTable.opt["minty-dump"] === true) {
                 this.argDump();
@@ -793,7 +799,7 @@
 
             var ret = regExpStr;
 
-            if (_rules.protoName(regExpStr) === ArguMintRules.STR) {
+            if (AuxUtils.typeName(regExpStr) === AuxUtils.STR) {
                 regExpStr = regExpStr.trim();
                 var tLen = regExpStr.length;
                 var first = regExpStr.charAt(0);
@@ -835,7 +841,7 @@
          */
         function expandJSONString(mightBeJson) {
 
-            if (!isNull(mightBeJson) && typeof mightBeJson === "string" && mightBeJson.length > 0) {
+            if (!AuxUtils.isNully(mightBeJson) && typeof mightBeJson === "string" && mightBeJson.length > 0) {
 
                 // insure the string has no space at the ends.
                 var trimmed = mightBeJson.trim();
@@ -867,10 +873,10 @@
                 str = newValue;
 
                 var pathMatches = str.match(_rules.filePathMatcher);
-                var plen = !isNull(pathMatches) ? pathMatches.length : 0;
+                var plen = !AuxUtils.isNully(pathMatches) ? pathMatches.length : 0;
                 if (plen > 0) {
                     for (var i = 0; i < plen; i++) {
-                        
+
                         var match = pathMatches[i];
                         var idx = str.indexOf(match);
 
@@ -931,13 +937,13 @@
                         }
                     }
                     if (!didMangle && _options.treatUndefinedStringsAsUndefined) {
-                        if (xVal === ArguMintRules.UDF) {
+                        if (xVal === AuxUtils.UDF) {
                             str = undefined;
                             didMangle = true;
                         }
                     }
                 }
-                if (ArguMints.verbose){ 
+                if (ArguMints.verbose) {
                     console.log("ArguMints.expandString() - expanded: " + str);
                 }
             }
@@ -950,9 +956,9 @@
             if (ArguMints.verbose) {
                 console.log("ArguMints.expandArray(" + arr + ")");
             }
-            var protoName = _rules.protoName(arr);
+            var protoName = AuxUtils.typeName(arr);
             var value;
-            if (protoName == ArguMintRules.ARR) {
+            if (protoName == AuxUtils.ARR) {
                 for (var i = 0; i < arr.length; i++) {
                     value = arr[i];
 
@@ -965,21 +971,20 @@
                     arr[i] = value;
                 }
             }
-            else if(protoName === 'object') {
+            else if (protoName === 'object') {
                 expandObject(value);
             }
 
             return this;
         }
         function expandObject(obj) {
-
             // pass through
             if (typeof obj !== "object") {
                 return obj;
             }
 
-            var protoName = _rules.protoName(obj);
-            if (protoName == ArguMintRules.ARR) {
+            var protoName = AuxUtils.typeName(obj);
+            if (protoName == AuxUtils.ARR) {
                 if (ArguMints.verbose) {
                     console.log("ArguMints.expandObject(" + obj + ") - ARRAY ");
                 }
@@ -991,7 +996,7 @@
                 }
                 // copy the keys to command table.
                 for ( var key in obj) {
-                    if(obj.hasOwnProperty(key)){
+                    if (obj.hasOwnProperty(key)) {
                         var keyValue = obj[key];
                         // inline expansion of strings will 
                         // perform the following
@@ -1000,32 +1005,29 @@
                         // 3. Json Expansion
                         // 4. string expansion of values such as (i.e. -f --option key=value argv0 argv1)
                         keyValue = expandString(keyValue);
-    
-                        if (typeof argAt ==="object" && !isNull(keyValue)) {
+
+                        if (typeof argAt === "object" && !AuxUtils.isNully(keyValue)) {
                             // expand the object result
                             // if this is an array, expandObject will direct to expandArray
                             expandObject(keyValue);
                         }
-    
+
                         // overwrite current key
                         obj[key] = keyValue;
                     }
                 }
             }
             return this;
-        }
+        } 
 
         ArguMints.prototype.matches = function(startIdx, endIdx) {
             var ret = null;
-            if (_commandTable.opt["minty-match-argv"]) {
-                ret = _commandTable.argvmatch;
-            }
-            else if (_commandTable.opt["minty-match-kv"]) {
-                ret = _commandTable.kvmatch;
+            if (!AuxUtils.isNully(_commandTable.matches)){
+                ret = _commandTable.matches;
             }
 
             // bail if options weren't set
-            if (isNull(ret)) {
+            if (AuxUtils.isNully(ret)) {
                 return [];
             }
 
@@ -1048,238 +1050,13 @@
             return ret.slice(startIdx, endIdx);
         };
 
+        // allow for extension of the api
         ArguMints.extensions = new ArguMintsExtensions();
-      
         
-        ArguMints.extensions.addAggregateOp("minty-match-kv", function(commandTable){
-            if(commandTable.keyStore){
-
-                // copy the argv
-                var kvStore = commandTable.keyStore;
-                var filtered = [];
-                var regExps = [];
-                var curr = null;
-                for ( var i in kvStore) {
-                    if(kvStore.hasOwnProperty(i)){
-                        curr = kvStore[i];
-                        if (_rules.protoName(curr, true) == "RegExp") {
-                            regExps[regExps.length] = curr;
-                        }
-                    }
-                }
-
-                var rLen = regExps.length;
-                //find regex values
-                for (var x = 0; x < rLen; x++) {
-                    var currRegExp = regExps[x];
-                    for ( var j in kvStore) {
-                        if(kvStore.hasOwnProperty(j)){
-                            var currArgAsStr = String(kvStore[j]);
-
-                            if (!isNull(currArgAsStr) && currArgAsStr !== "") {
-
-                                var moreResults = currArgAsStr.match(currRegExp);
-
-                                if (!isNull(moreResults) && moreResults.length > 0) {
-                                    filtered = filtered.concat(moreResults);
-                                }
-                            }
-                        }
-                    }
-                }
-
-                commandTable.kvmatch = filtered;
-            }
-        });
-        ArguMints.extensions.addAggregateOp("minty-match-argv", function(commandTable){
-
-            if (commandTable.argv) {
-                // copy the argv
-                var argv = commandTable.argv.concat();
-                var argc = commandTable.argv.length;
-                var filtered = [];
-                var regExps = [];
-                var curr = null;
-                var i;
-                for (i = 0; i < argc; ++i) {
-                    curr = argv[i];
-                    if (_rules.protoName(curr, true) === "RegExp") {
-                        regExps[regExps.length] = curr;
-                        // remove and step back
-                        argv.splice(i, 1);
-                        --i;
-                    }
-                }
-                argc = argv.length;
-                var rLen = regExps.length;
-                //find regex values
-                for (i = 0; i < rLen; ++i) {
-                    var currRegExp = regExps[i];
-                    for (var j = 0; j < argc; ++j) {
-                        var currArgAsStr = String(argv[j]);
-
-                        if (!isNull(currArgAsStr) && currArgAsStr !== "") {
-
-                            var moreResults = (currArgAsStr.match(currRegExp));
-
-                            if (!isNull(moreResults) && moreResults.length > 0) {
-                                filtered = filtered.concat(moreResults);
-                            }
-                        }
-                    }
-
-                }
-                commandTable.argvmatch = filtered;
-            } 
-        });
-        ArguMints.extensions.addKeyStoreOp("minty-append-dup-keys", function(commandTable, key, value) {
-
-            //
-            // @private
-            function appendNumberForKey(inStore, inOpt, inKey, inValue) {
-
-                var called = false;
-                inKey = inKey.trim();
-
-                if (inStore[inKey] === undefined) {
-                    inStore[inKey] = 0;
-                }
-
-                for ( var x in inOpt) {
-
-                    if(inOpt.hasOwnProperty(x))
-                    {
-                        var f = ArguMints.extensions.getOp(x);
-                        if (!isNull(f)) {
-                            f.op(inStore, inKey, inValue);
-                            called = true;
-                            break;
-                        }
-                    }
-                }
-                if (!called) {
-                    inStore[inKey] += inValue;
-                }
-            }
-            
-            var handled = false;
-            var keyStore = commandTable.keyStore;
-            var currValue = keyStore[key];
-            var pName = _rules.protoName(currValue);
-            var newPName = _rules.protoName(value);
-
-            if (currValue !== undefined) {
-                if (pName == ArguMintRules.ARR) {
-                    if (newPName == ArguMintRules.ARR) {
-                        currValue = currValue.concat(value);
-                        keyStore[key] = value;
-                        handled = true;
-                    }
-                    else {
-                        // if new value isn't undefined push it on
-                        if (value !== undefined) {
-                            currValue[currValue.length] = value;
-                        }
-                        // sanity
-                        keyStore[key] = currValue;
-                        handled = true;
-                    }
-                }
-                else if (pName != ArguMintRules.UDF) {
-                    if (pName == ArguMintRules.STR) {
-                        if (newPName != ArguMintRules.UDF) {
-                            // concat and coerce value to 'string'
-                            keyStore[key] += value;
-                            handled = true;
-                        }
-                    }
-                    else if (pName == ArguMintRules.NUM) {
-                        if (newPName == ArguMintRules.NUM) {
-                            appendNumberForKey(keyStore, commandTable.opt, key, value);
-                            handled = true;
-                        }
-                        else if (newPName == ArguMintRules.STR) {
-                            keyStore[key] += value;
-                            handled = true;
-                        }
-                    }
-                }
-            }
-            else {
-                if (newPName == ArguMintRules.NUM) {
-                    appendNumberForKey(keyStore, commandTable.opt, key, value);
-                    handled = true;
-                }
-            }
-
-            return handled;
-        });
-
-        ArguMints.extensions.addOp("minty-op-add", function(keyStore, key, value) {
-            keyStore[key.trim()] += value;
-            return this;
-        });
-
-        // add extensions
-
-        ArguMints.extensions.addOp("minty-op-sub", function(keyStore, key, value) {
-            keyStore[key.trim()] -= value;
-
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-mul", function(keyStore, key, value) {
-            keyStore[key.trim()] *= value;
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-div", function(keyStore, key, value) {
-            keyStore[key.trim()] /= value;
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-sqrt", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.sqrt(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-sqr", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.pow(value, 2);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-ln", function(keyStore, key, value) {
-
-            keyStore[key.trim()] += Math.log(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-cos", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.cos(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-sin", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.sin(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-tan", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.tan(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-atan", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.atan(value);
-            return this;
-        });
-
-        ArguMints.extensions.addOp("minty-op-exp", function(keyStore, key, value) {
-            keyStore[key.trim()] += Math.exp(value);
-            return this;
-        });
+        // provide some built ins
+        new BuiltIns(ArguMints).initialize();
     }
-
+    
     // Prototype Setup
     ArguMints.verbose = false;
     ArguMints.REPL = false;

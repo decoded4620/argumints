@@ -1,9 +1,9 @@
 {
   "name": "argumints",
   "icon": "argumints_icon.jpg",
-  "version": "1.2.42",
+  "version": "1.2.43",
   "description": "A flexible CLI (opt, argv, flag, argc) parser that converts input into JS data types. Additionally supports JSON, key=value, and /rege/x formats, and  options to manipulate, aggregate, and calculate.",
-  "main": "argumints.js",
+  "main": "build/argumints.min.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
@@ -13,10 +13,15 @@
   },
   "keywords": [
     "line",
+    "underscore",
+    "gulp",
+    "mocha",
+    "chai",
     "args",
     "argv",
     "argc",
     "opt",
+    "cl parser",
     "cmd line parser",
     "cli line parser",
     "cli parser",
@@ -66,16 +71,12 @@
     "regex",
     "reg"
   ],
-  
   "author": "Decoded4620 <barcher4620@gmail.com> (http://github.com/decoded4620)",
-  
   "license": "MIT",
-  
   "bugs": {
     "url": "https://github.com/decoded4620/argumints/issues"
   },
   "homepage": "https://github.com/decoded4620/argumints#readme",
-  
   "dependencies": {
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
@@ -85,5 +86,18 @@
     "mkdirp": "^0.5.1",
     "express": "^4.13.4",
     "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^2.2.0",
+    "gulp-uglify": "^1.5.2",
+    "jshint": "^2.9.1",
+    "lodash": "^4.3.0",
+    "yargs": "^3.32.0"
   }
 }

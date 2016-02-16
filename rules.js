@@ -35,39 +35,9 @@ var ArguMintRules = (function() {
 
                 _fileCache[tag] = content;
             }
-        },
-        // private vars
-        // returns the prototype name for an Object. I.E.  rules.protoName([]); // Array
-        protoName : function(protoVal, getFuncNames) {
-            if (protoVal != null) {
-                if (protoVal.constructor != null) {
-                    protoVal = protoVal.constructor.name
-                }
-            }
-            else {
-                if (protoVal === undefined) {
-                    protoVal = ArguMintRules.UDF;
-                }
-                else if (protoVal === null) {
-                    protoVal = String(protoVal);
-                }
-            }
-            
-            return protoVal;
         }
     }
-    
-    
-    ArguMintRules.FUNC = 'Function';
-    ArguMintRules.STR = 'String';
-    ArguMintRules.NUM = 'Number';
-    ArguMintRules.BOOL = 'Boolean';
-    ArguMintRules.ARR = 'Array';
-    ArguMintRules.OBJ = 'Object';
-    ArguMintRules.NUL = 'null';
-    ArguMintRules.UDF = 'undefined';
-    ArguMintRules.REGX = 'RegExp';
-    
+   
     return ArguMintRules;
     
 }.call(this));

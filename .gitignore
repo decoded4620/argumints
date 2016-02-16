@@ -5,3 +5,4 @@
 /.settings/
 .bin
 node_modules
+build
