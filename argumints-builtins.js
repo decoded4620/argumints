@@ -1,7 +1,5 @@
 var AuxUtils = require("./aux_utils.js");
-
 var BuiltIns = (function(){
-
     var ArguMints = null;
     function BuiltIns(InArguMintsCtor){
         ArguMints = InArguMintsCtor;
@@ -11,15 +9,13 @@ var BuiltIns = (function(){
         if(ArguMints === undefined){
             throw new Error("Cannot Load Builtins!");
         }
-        
     
         ArguMints.extensions.addAggregateOp("minty-match-kv", function(commandTable) {
             if (commandTable.keyStore) {
-    
-                // copy the argv
-                var kvStore = commandTable.keyStore;
-                var regExps = [];
-                var curr = null;
+                var kvStore     = commandTable.keyStore;
+                var regExps     = [];
+                var curr        = null;
+
                 for ( var i in kvStore) {
                     if (kvStore.hasOwnProperty(i)) {
                         curr = kvStore[i];
@@ -30,7 +26,7 @@ var BuiltIns = (function(){
                 }
     
                 var rLen = regExps.length;
-                //find regex values
+
                 for (var x = 0; x < rLen; x++) {
                     var currRegExp = regExps[x];
                     for ( var j in kvStore) {
@@ -50,10 +46,9 @@ var BuiltIns = (function(){
                 }
             }
         });
+
         ArguMints.extensions.addAggregateOp("minty-match-argv", function(commandTable) {
-    
             if (commandTable.argv) {
-                // copy the argv
                 var argv = commandTable.argv.concat();
                 var argc = commandTable.argv.length;
                 var regExps = [];
@@ -68,16 +63,15 @@ var BuiltIns = (function(){
                         --i;
                     }
                 }
-                argc = argv.length;
-                var rLen = regExps.length;
-                //find regex values
+
+                argc        = argv.length;
+                var rLen    = regExps.length;
+
                 for (i = 0; i < rLen; ++i) {
                     var currRegExp = regExps[i];
                     for (var j = 0; j < argc; ++j) {
                         var currArgAsStr = String(argv[j]);
-    
                         if (!AuxUtils.isNully(currArgAsStr) && currArgAsStr !== "") {
-    
                             var moreResults = (currArgAsStr.match(currRegExp));
     
                             if (!AuxUtils.isNully(moreResults) && moreResults.length > 0) {
@@ -88,12 +82,9 @@ var BuiltIns = (function(){
                 }
             }
         });
+
         ArguMints.extensions.addKeyStoreOp("minty-append-dup-keys", function(commandTable, key, value) {
-    
-            //
-            // @private
             function appendNumberForKey(inStore, inOpt, inKey, inValue) {
-    
                 var called = false;
                 inKey = inKey.trim();
     
@@ -102,7 +93,6 @@ var BuiltIns = (function(){
                 }
     
                 for ( var x in inOpt) {
-    
                     if (inOpt.hasOwnProperty(x)) {
                         var f = ArguMints.extensions.getOp(x);
                         if (!AuxUtils.isNully(f)) {
@@ -117,18 +107,18 @@ var BuiltIns = (function(){
                 }
             }
     
-            var handled = false;
-            var keyStore = commandTable.keyStore;
-            var currValue = keyStore[key];
-            var currTypeName = AuxUtils.typeName(currValue);
-            var newTypeName = AuxUtils.typeName(value);
+            var handled         = false;
+            var keyStore        = commandTable.keyStore;
+            var currValue       = keyStore[key];
+            var currTypeName    = AuxUtils.typeName(currValue);
+            var newTypeName     = AuxUtils.typeName(value);
     
             if (currValue !== undefined) {
                 if (currTypeName == AuxUtils.ARR) {
                     if (newTypeName == AuxUtils.ARR) {
-                        currValue = currValue.concat(value);
-                        keyStore[key] = value;
-                        handled = true;
+                        currValue       = currValue.concat(value);
+                        keyStore[key]   = value;
+                        handled         = true;
                     }
                     else {
                         // if new value isn't undefined push it on
@@ -144,18 +134,18 @@ var BuiltIns = (function(){
                     if (currTypeName == AuxUtils.STR) {
                         if (newTypeName != AuxUtils.UDF) {
                             // concat and coerce value to 'string'
-                            keyStore[key] += value;
-                            handled = true;
+                            keyStore[key]   += value;
+                            handled         = true;
                         }
                     }
                     else if (currTypeName == AuxUtils.NUM) {
                         if (newTypeName == AuxUtils.NUM) {
                             appendNumberForKey(keyStore, commandTable.opt, key, value);
-                            handled = true;
+                            handled         = true;
                         }
                         else if (newTypeName == AuxUtils.STR) {
-                            keyStore[key] += value;
-                            handled = true;
+                            keyStore[key]   += value;
+                            handled         = true;
                         }
                     }
                 }
@@ -233,8 +223,6 @@ var BuiltIns = (function(){
             keyStore[key.trim()] += Math.exp(value);
             return this;
         });
-        
-        
     }
     
     return BuiltIns;

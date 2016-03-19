@@ -1,22 +1,16 @@
-/**
- * 
- */
-
 module.exports = (function(){
-    
-    /**
-     * 
-     */
+
     function AuxUtils(){}
-    AuxUtils.FUNC = 'Function';
-    AuxUtils.STR = 'String';
-    AuxUtils.NUM = 'Number';
-    AuxUtils.BOOL = 'Boolean';
-    AuxUtils.ARR = 'Array';
-    AuxUtils.OBJ = 'Object';
-    AuxUtils.NUL = 'null';
-    AuxUtils.UDF = 'undefined';
-    AuxUtils.REGX = 'RegExp';
+
+    AuxUtils.FUNC   = 'Function';
+    AuxUtils.STR    = 'String';
+    AuxUtils.NUM    = 'Number';
+    AuxUtils.BOOL   = 'Boolean';
+    AuxUtils.ARR    = 'Array';
+    AuxUtils.OBJ    = 'Object';
+    AuxUtils.NUL    = 'null';
+    AuxUtils.UDF    = 'undefined';
+    AuxUtils.REGX   = 'RegExp';
     
     // static to check for either null or undefined
     // as a value
@@ -26,7 +20,6 @@ module.exports = (function(){
      
     // returns the prototype name for an Object. I.E.  rules.protoName([]); // Array
     AuxUtils.typeName = function(protoVal, getFuncNames) {
-        
         var pName = null;
         if (protoVal != null) {
             if (protoVal.constructor != null) {
@@ -35,7 +28,7 @@ module.exports = (function(){
         }
         else {
             if (protoVal === undefined) {
-             // this is faster than calling 'toString' or 'type of' to simply return 'undefined'
+                // this is faster than calling 'toString' or 'type of' to simply return 'undefined'
                 pName = AuxUtils.UDF;
             }
             else if (protoVal === null) {

@@ -1,12 +1,7 @@
-//@private
 var ArguMintRules = (function() {
-
     var _filePathMatcher = new RegExp("(^|\\s)(@(?:/?[^/\",@\\s]*)+/?|\"@(/?[^/\",@\\r\\n\\f\\t]*)+/?\")", "gm");
     var _fileCache = null;
 
-    /**
-     * CTOR 
-     */
     function ArguMintRules(){
         this.__defineGetter__("filePathMatcher", function() {
             return _filePathMatcher;
@@ -41,6 +36,5 @@ var ArguMintRules = (function() {
     return ArguMintRules;
     
 }.call(this));
-
 
 module.exports.ArguMintRules = ArguMintRules;
